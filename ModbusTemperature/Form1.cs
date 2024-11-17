@@ -1,4 +1,5 @@
 using Modbus.Device;
+using ModbusTemperature.Model;
 using System.IO.Ports;
 
 
@@ -8,14 +9,14 @@ namespace ModbusTemperature
     {
         private System.Windows.Forms.Timer temperatureTimer;
         private bool isReading = false;
-
+        private ModelMaster masterModel = new ModelMaster();
         public Form1()
         {
             InitializeComponent();
             temperatureTimer = new System.Windows.Forms.Timer();
             temperatureTimer.Interval = 1000;
             temperatureTimer.Tick += TemperatureTimer_Tick;
-
+              
         }
 
 
@@ -49,10 +50,11 @@ namespace ModbusTemperature
                     ushort[] response = master.ReadHoldingRegisters(slaveAddress, startAddress, numberOfPoints);
                     double temperature = ConvertRegisterToTemperature(response[0]);
 
-                    // Tampilkan suhu di kontrol TextBox atau Label
-
-                    textBox1.Text = $"Temperature : {temperature} °C";
-                    ModelTemperature.SaveTemperature(temperature);
+                    //Tampilkan suhu di kontrol TextBox atau Label
+                   ModelDetail detail = new ModelDetail(masterModel.SerialNumber, temperature);
+                    detail.SaveDataDetail();
+                    textBox3.Text = $"Temperature : {temperature} °C";
+                    //ModelTemperature.SaveTemperature(temperature);
                 }
             }
             catch (Exception ex)
@@ -67,11 +69,6 @@ namespace ModbusTemperature
             return registerValue * 0.1; // Misalnya skala nilai register dengan faktor 0.1 menjadi °C
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-
-        }
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -94,6 +91,30 @@ namespace ModbusTemperature
         private void pictureBox1_Click(object sender, EventArgs e)
         {
 
+
+        }
+
+        private void textBox2_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                masterModel.SerialNumber = textBox2.Text;
+                masterModel.SaveMaster();
+                temperatureTimer.Start();
+            }
+        }
+
+        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                masterModel.badgeId = textBox1.Text;
+                textBox2.Focus();
+            }
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
 
         }
     }
