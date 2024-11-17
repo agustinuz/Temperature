@@ -29,6 +29,10 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
             textBox1 = new TextBox();
             button1 = new Button();
             toolTip1 = new ToolTip(components);
@@ -39,7 +43,9 @@
             label2 = new Label();
             button2 = new Button();
             backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)chart1).BeginInit();
             SuspendLayout();
             // 
             // textBox1
@@ -126,11 +132,37 @@
             button2.Text = "Submit";
             button2.UseVisualStyleBackColor = false;
             // 
+            // chart1
+            // 
+            chart1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            chartArea1.Name = "ChartArea1";
+            chart1.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            chart1.Legends.Add(legend1);
+            chart1.Location = new Point(424, 0);
+            chart1.Name = "chart1";
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series1.IsXValueIndexed = true;
+            series1.Legend = "Legend1";
+            series1.Name = "Data Temperature";
+            series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
+            series1.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
+            chart1.Series.Add(series1);
+            chart1.Size = new Size(1017, 579);
+            chart1.TabIndex = 5;
+            chart1.Text = "Chart Temperature Data";
+            chart1.TextAntiAliasingQuality = System.Windows.Forms.DataVisualization.Charting.TextAntiAliasingQuality.Normal;
+            title1.Name = "Title1";
+            title1.Text = "Temperature Chart";
+            chart1.Titles.Add(title1);
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1453, 579);
+            Controls.Add(chart1);
             Controls.Add(panel2);
             FormBorderStyle = FormBorderStyle.None;
             Name = "Form1";
@@ -139,6 +171,7 @@
             Load += Form1_Load;
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)chart1).EndInit();
             ResumeLayout(false);
         }
 
@@ -153,5 +186,6 @@
         private TextBox textBox2;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private TextBox textBox3;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
     }
 }

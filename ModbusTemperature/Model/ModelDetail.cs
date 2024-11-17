@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ModbusTemperature.Model
 {
-    internal class ModelDetail
+    public class ModelDetail
     {
         
         public ModelDetail(string _serialNumber,double _temperature)
@@ -16,6 +16,7 @@ namespace ModbusTemperature.Model
             SerialNumber = _serialNumber;
             TemperatureData = _temperature;
         }
+        public ModelDetail() { }
         public string SerialNumber { get; set; }
         public double TemperatureData { get; set; }
         public DateTime RecordedAt { get; set; } = DateTime.Now;
@@ -28,7 +29,16 @@ namespace ModbusTemperature.Model
                 string query = "INSERT INTO TemperatureDataDetail (SerialNumber, TemperatureData, RecordedAt) " +
                                "VALUES (@SerialNumber, @TemperatureData @recordedAt)";
                 // Assuming you want to record the time in RecordedAt field
-                connection.Execute(query, new { SerialNumber, temperature, recordedAt = DateTime.Now });
+                connection.Execute(query, new { SerialNumber, temperature, recordedAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") });
+            }
+        }
+
+        public static List<ModelDetail> GetModelDetailsBySerialNumber(string serialNumber)
+        {
+            using (var connection = ConfigDB.GetConnection())
+            {
+                string query = @"SELECT SerialNumber,TemperatureData,RecordedAt FROM TemperatureDataDetail where SerialNumber=@SerialNumber";
+                return connection.Query<ModelDetail>(query, new { SerialNumber = serialNumber }).ToList();
             }
         }
         public void SaveDataDetail()
@@ -36,7 +46,7 @@ namespace ModbusTemperature.Model
             using (var connection = ConfigDB.GetConnection())
             {
                 string query = "INSERT INTO TemperatureDataDetail (SerialNumber, TemperatureData, RecordedAt) " +
-                               "VALUES (@SerialNumber, @TemperatureData @recordedAt)";
+                               "VALUES (@SerialNumber, @TemperatureData, @RecordedAt)";
                 // Assuming you want to record the time in RecordedAt field
                 connection.Execute(query, this);
             }
