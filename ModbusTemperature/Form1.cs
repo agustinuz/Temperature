@@ -48,7 +48,7 @@ namespace ModbusTemperature
             for (int i = 0; i < details.Count; i++)
             {
                 DataPoint point = new DataPoint();
-                chart1.Series[0].Points.AddXY(details[i].RecordedAt, details[i].TemperatureData );
+                chart1.Series[0].Points.AddXY(details[i].RecordedAt, details[i].TemperatureData);
                 chart1.Series[0].Points.Last().Label = details[i].TemperatureData + " *C - " + details[i].RecordedAt.ToString("HH:mm:ss");
             }
         }
@@ -56,8 +56,8 @@ namespace ModbusTemperature
         {
             ReadTemperature();
             //Stop reading after 1 minute
-            if (startTime.AddSeconds(10) <= DateTime.Now)
-            { 
+            if (startTime.AddMinutes(1) <= DateTime.Now)
+            {
                 if (temperatureTimer.Interval >= 50000)
                 {
                     temperatureTimer.Stop();
@@ -93,47 +93,71 @@ namespace ModbusTemperature
             }
         }
 
+        private void StopReadingTemperature()
+        {
+            if (isReading)
+            {
+                isReading = false;
+                //startTime = DateTime.Now;
+                temperatureTimer.Stop();
+                masterModels.Clear();
+                badgeId = "";
+                label1.Text = "";
+            }
+        }
+
         private void ReadTemperature()
         {
             try
             {
-                using (SerialPort port = new("COM4"))
+                //using (SerialPort port = new("COM4"))
+                //{
+                //    port.BaudRate = 9600; // Sesuaikan dengan baud rate perangkat kamu
+                //    port.DataBits = 8;
+                //    port.Parity = Parity.None;
+                //    port.StopBits = StopBits.One;
+                //    port.Open();
+
+                //    var master = factory.CreateRtuMaster(port);
+                //    byte slaveAddress = 1; // ID Modbus perangkat PT100
+                //    ushort startAddress = 0; // Alamat register pertama untuk suhu
+                //    ushort numberOfPoints = 1;
+                //    ushort[] response = master.ReadHoldingRegisters(slaveAddress, startAddress, numberOfPoints);
+                //    double temperature = ConvertRegisterToTemperature(response[0]);
+
+
+                //foreach (var serialNumber in masterModels)
+                //{
+                //    ModelDetail detail = new ModelDetail(serialNumber.SerialNumber, temperature);
+                //    detail.SaveDataDetail();
+                //}
+                //var details = ModelDetail.GetModelDetailsBySerialNumber(masterModels.First().SerialNumber);
+                //details = details.TakeLast(10).ToList();
+                //LoadDataDetailToChart(details);
+                //textBox3.Text = $"{temperature} °C";
+
+                //    //Tampilkan suhu di kontrol TextBox atau Label
+                //   ModelDetail detail = new ModelDetail(masterModel.SerialNumber, temperature);
+                //    detail.SaveDataDetail();
+                //    textBox3.Text = $"Temperature : {temperature} °C";
+                //    //ModelTemperature.SaveTemperature(temperature);
+                //}
+                Random rnd = new Random();
+                double temperature = rnd.NextDouble();
+                temperature = temperature * 100;
+                //Save temperature for each scanned SerialNumber
+
+                foreach (var serialNumber in masterModels)
                 {
-                    port.BaudRate = 9600; // Sesuaikan dengan baud rate perangkat kamu
-                    port.DataBits = 8;
-                    port.Parity = Parity.None;
-                    port.StopBits = StopBits.One;
-                    port.Open();
-
-                    var master = factory.CreateRtuMaster(port);
-                    byte slaveAddress = 1; // ID Modbus perangkat PT100
-                    ushort startAddress = 0; // Alamat register pertama untuk suhu
-                    ushort numberOfPoints = 1;
-                    ushort[] response = master.ReadHoldingRegisters(slaveAddress, startAddress, numberOfPoints);
-                    double temperature = ConvertRegisterToTemperature(response[0]);
-
-
-                    foreach (var serialNumber in masterModels)
-                    {
-                        ModelDetail detail = new ModelDetail(serialNumber.SerialNumber, temperature);
-                        detail.SaveDataDetail();
-                    }
-                    var details = ModelDetail.GetModelDetailsBySerialNumber(masterModels.First().SerialNumber);
-                    details = details.TakeLast(10).ToList();
-                    LoadDataDetailToChart(details);
-                    textBox3.Text = $"{temperature} °C";
-
-                    //    //Tampilkan suhu di kontrol TextBox atau Label
-                    //   ModelDetail detail = new ModelDetail(masterModel.SerialNumber, temperature);
-                    //    detail.SaveDataDetail();
-                    //    textBox3.Text = $"Temperature : {temperature} °C";
-                    //    //ModelTemperature.SaveTemperature(temperature);
+                    ModelDetail detail = new ModelDetail(serialNumber.SerialNumber, temperature);
+                    detail.SaveDataDetail();
                 }
-                //    Random rnd = new Random();
-                //double temperature = rnd.NextDouble();
-                //temperature = temperature * 100;
-                // Save temperature for each scanned SerialNumber
-                
+                var details = ModelDetail.GetModelDetailsBySerialNumber(masterModels.First().SerialNumber);
+                details = details.TakeLast(10).ToList();
+                LoadDataDetailToChart(details);
+                textBox3.Text = $"{temperature} °C";
+
+
                 // Load the latest temperature data for the first SerialNumber
                 //var details = ModelDetail.GetModelDetailsBySerialNumber(masterModels.First().SerialNumber);
                 //details = details.TakeLast(10).ToList();
@@ -149,7 +173,7 @@ namespace ModbusTemperature
         private double ConvertRegisterToTemperature(ushort registerValue)
         {
             // Contoh konversi, disesuaikan dengan format data perangkat
-            return (((double)registerValue)-65400) ; // Misalnya skala nilai register dengan faktor 0.1 menjadi °C
+            return (((double)registerValue) - 65400); // Misalnya skala nilai register dengan faktor 0.1 menjadi °C
         }
 
 
@@ -180,7 +204,7 @@ namespace ModbusTemperature
                     masterModel.badgeId = badgeId;
                     masterModels.Add(masterModel);
                     textBox2.Clear();
-                    label1.Text = "Badge ID: " + "\n -"+ badgeId + "\n Serial Numbers: " + "\n -" + string.Join("\n -", masterModels.Select(x => x.SerialNumber).ToList());
+                    label1.Text = "Badge ID: " + "\n -" + badgeId + "\n Serial Numbers: " + "\n -" + string.Join("\n -", masterModels.Select(x => x.SerialNumber).ToList());
 
                     // If the limit of 8 serial numbers is reached, stop reading the temperature
                     var result = MessageBox.Show("Tambah Serial Number lagi?", "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -207,25 +231,28 @@ namespace ModbusTemperature
                 badgeId = textBox1.Text;
                 textBox2.Focus();
                 textBox1.Clear();
-                
+
             }
         }
 
         private void label1_Click(object sender, EventArgs e)
         {
-            
+
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-            Form2 form2 = new Form2();
-            form2.Show();
-        }
+       
 
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
 
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            StopReadingTemperature();
+        }
+
+     
     }
 
 }
