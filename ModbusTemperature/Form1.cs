@@ -5,6 +5,7 @@ using NModbus;
 using NModbus.Serial;
 using System.Windows.Forms.DataVisualization.Charting;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
+using ModbusTemperature.Utility;
 
 namespace ModbusTemperature
 {
@@ -55,13 +56,31 @@ namespace ModbusTemperature
         {
             ReadTemperature();
             //Stop reading after 1 minute
-            if ((DateTime.Now - startTime).TotalSeconds <= 60)
+            if (startTime.AddSeconds(10) <= DateTime.Now)
+            { 
                 if (temperatureTimer.Interval >= 50000)
                 {
                     temperatureTimer.Stop();
                     isReading = false;
                     MessageBox.Show("Temperature reading has been automatically stopped after 1 minute.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    string imgPath = Path.Combine(AppContext.BaseDirectory, "chart1.jpg");
+                    if (File.Exists(imgPath))
+                        File.Delete(imgPath);
+                    chart1.SaveImage(Path.Combine(AppContext.BaseDirectory, "chart1.jpg"), ChartImageFormat.Jpeg);
+                    PDFUtility.ImageToPdf(Path.Combine(AppContext.BaseDirectory, "chart1.jpg"), "pdf1.pdf");
                 }
+                else
+                {
+
+                    temperatureTimer.Stop();
+                    isReading = false;
+                    string imgPath = Path.Combine(AppContext.BaseDirectory, "chart1.jpg");
+                    if (File.Exists(imgPath))
+                        File.Delete(imgPath);
+                    chart1.SaveImage(Path.Combine(AppContext.BaseDirectory, "chart1.jpg"), ChartImageFormat.Jpeg);
+                    PDFUtility.ImageToPdf(Path.Combine(AppContext.BaseDirectory, "chart1.jpg"), "pdf1.pdf");
+                }
+            }
 
         }
         private void StartReadingTemperature()
@@ -164,8 +183,7 @@ namespace ModbusTemperature
                         {
                             _masterModel.SaveMaster();
                         }
-                        isReading = true;
-                        temperatureTimer.Start();
+                        StartReadingTemperature();
                     }
                 }
                 else
@@ -182,6 +200,7 @@ namespace ModbusTemperature
                 badgeId = textBox1.Text;
                 textBox2.Focus();
                 textBox1.Clear();
+
                 //label1.Text = "- Badge ID: " + masterModel.badgeId;
             }
         }
