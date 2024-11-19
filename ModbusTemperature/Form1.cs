@@ -48,7 +48,7 @@ namespace ModbusTemperature
             for (int i = 0; i < details.Count; i++)
             {
                 DataPoint point = new DataPoint();
-                chart1.Series[0].Points.AddXY(details[i].RecordedAt, details[i].TemperatureData /2000);
+                chart1.Series[0].Points.AddXY(details[i].RecordedAt, details[i].TemperatureData );
                 chart1.Series[0].Points.Last().Label = details[i].TemperatureData + " *C - " + details[i].RecordedAt.ToString("HH:mm:ss");
             }
         }
@@ -149,7 +149,7 @@ namespace ModbusTemperature
         private double ConvertRegisterToTemperature(ushort registerValue)
         {
             // Contoh konversi, disesuaikan dengan format data perangkat
-            return registerValue ; // Misalnya skala nilai register dengan faktor 0.1 menjadi °C
+            return (double)(Convert.ToDouble((registerValue).ToString())/2180) ; // Misalnya skala nilai register dengan faktor 0.1 menjadi °C
         }
 
 
