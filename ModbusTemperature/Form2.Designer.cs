@@ -34,8 +34,11 @@
             System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
             chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             panel1 = new Panel();
+            panel3 = new Panel();
+            panel2 = new Panel();
             panel4 = new Panel();
             label3 = new Label();
+            button1 = new Button();
             panel5 = new Panel();
             label9 = new Label();
             label8 = new Label();
@@ -49,26 +52,23 @@
             label12 = new Label();
             label11 = new Label();
             label10 = new Label();
-            button1 = new Button();
-            panel2 = new Panel();
-            panel3 = new Panel();
             ((System.ComponentModel.ISupportInitialize)chart1).BeginInit();
             panel1.SuspendLayout();
+            panel3.SuspendLayout();
+            panel2.SuspendLayout();
             panel4.SuspendLayout();
             panel5.SuspendLayout();
             panel6.SuspendLayout();
-            panel2.SuspendLayout();
-            panel3.SuspendLayout();
             SuspendLayout();
             // 
             // chart1
             // 
-            chart1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             chartArea1.Name = "ChartArea1";
             chart1.ChartAreas.Add(chartArea1);
+            chart1.Dock = DockStyle.Fill;
             legend1.Name = "Legend1";
             chart1.Legends.Add(legend1);
-            chart1.Location = new Point(67, 20);
+            chart1.Location = new Point(0, 0);
             chart1.Name = "chart1";
             series1.ChartArea = "ChartArea1";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
@@ -78,22 +78,47 @@
             series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
             series1.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
             chart1.Series.Add(series1);
-            chart1.Size = new Size(879, 577);
+            chart1.Size = new Size(964, 616);
             chart1.TabIndex = 6;
             chart1.Text = "Chart Temperature Data";
             chart1.TextAntiAliasingQuality = System.Windows.Forms.DataVisualization.Charting.TextAntiAliasingQuality.Normal;
             title1.Name = "Title1";
             title1.Text = "Temperature Chart";
             chart1.Titles.Add(title1);
+            chart1.Click += chart1_Click;
             // 
             // panel1
             // 
             panel1.Controls.Add(panel3);
             panel1.Controls.Add(panel2);
-            panel1.Location = new Point(12, 12);
+            panel1.Dock = DockStyle.Fill;
+            panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1224, 644);
+            panel1.Padding = new Padding(5);
+            panel1.Size = new Size(1248, 668);
             panel1.TabIndex = 7;
+            // 
+            // panel3
+            // 
+            panel3.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            panel3.BackColor = Color.WhiteSmoke;
+            panel3.Controls.Add(chart1);
+            panel3.Location = new Point(243, 15);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(964, 616);
+            panel3.TabIndex = 12;
+            // 
+            // panel2
+            // 
+            panel2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            panel2.Controls.Add(panel4);
+            panel2.Controls.Add(button1);
+            panel2.Controls.Add(panel5);
+            panel2.Controls.Add(panel6);
+            panel2.Location = new Point(0, 0);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(222, 668);
+            panel2.TabIndex = 11;
             // 
             // panel4
             // 
@@ -113,6 +138,15 @@
             label3.Size = new Size(131, 17);
             label3.TabIndex = 5;
             label3.Text = "User Id :  x x x x";
+            // 
+            // button1
+            // 
+            button1.Location = new Point(55, 562);
+            button1.Name = "button1";
+            button1.Size = new Size(91, 40);
+            button1.TabIndex = 10;
+            button1.Text = "SAVE";
+            button1.UseVisualStyleBackColor = true;
             // 
             // panel5
             // 
@@ -251,35 +285,6 @@
             label10.TabIndex = 14;
             label10.Text = "DATE : ";
             // 
-            // button1
-            // 
-            button1.Location = new Point(55, 562);
-            button1.Name = "button1";
-            button1.Size = new Size(91, 40);
-            button1.TabIndex = 10;
-            button1.Text = "SAVE";
-            button1.UseVisualStyleBackColor = true;
-            // 
-            // panel2
-            // 
-            panel2.Controls.Add(panel4);
-            panel2.Controls.Add(button1);
-            panel2.Controls.Add(panel5);
-            panel2.Controls.Add(panel6);
-            panel2.Location = new Point(0, 0);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(222, 644);
-            panel2.TabIndex = 11;
-            // 
-            // panel3
-            // 
-            panel3.BackColor = Color.WhiteSmoke;
-            panel3.Controls.Add(chart1);
-            panel3.Location = new Point(243, 15);
-            panel3.Name = "panel3";
-            panel3.Size = new Size(964, 616);
-            panel3.TabIndex = 12;
-            // 
             // Form2
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -290,14 +295,14 @@
             Text = "Form2";
             ((System.ComponentModel.ISupportInitialize)chart1).EndInit();
             panel1.ResumeLayout(false);
+            panel3.ResumeLayout(false);
+            panel2.ResumeLayout(false);
             panel4.ResumeLayout(false);
             panel4.PerformLayout();
             panel5.ResumeLayout(false);
             panel5.PerformLayout();
             panel6.ResumeLayout(false);
             panel6.PerformLayout();
-            panel2.ResumeLayout(false);
-            panel3.ResumeLayout(false);
             ResumeLayout(false);
         }
 
