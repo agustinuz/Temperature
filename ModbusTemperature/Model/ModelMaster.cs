@@ -12,14 +12,17 @@ namespace ModbusTemperature.Model
         public DateTime RecordedAt { get; set; } = DateTime.Now;
 
         // Metode untuk menyimpan data suhu ke database
-        public static void SaveDataMaster(string badgeId, string SerialNumber)
+        public static void SaveDataMaster(string badgeId, List<string> SerialNumber)
         {
             using (var connection = ConfigDB.GetConnection())
             {
-                string query = "INSERT INTO TemperatureDataMaster (badgeId, SerialNumber, RecordedAt) " +
-                               "VALUES (@badgeId, @SerialNumber, @recordedAt)";
+                var query = "INSERT INTO TemperatureDataMaster (badgeId, SerialNumber, RecordedAt) " +
+                            "VALUES (@badgeId, @SerialNumber, @recordedAt)";
                 // Assuming you want to record the time in RecordedAt field
-                connection.Execute(query, new { badgeId, SerialNumber, recordedAt = DateTime.Now });
+                var parameters = SerialNumber.Select(sn => new { badgeId, SerialNumber = sn, recordedAt = DateTime.Now }).ToList();
+
+                // Menyimpan banyak data dalam satu batch
+                connection.Execute(query, parameters);
             }
         }
         public static List<ModelDetail> GetLastTemperatureDataByScanCodeTime()
@@ -42,7 +45,6 @@ namespace ModbusTemperature.Model
             {
                 string query = "INSERT INTO TemperatureDataMaster (badgeId, SerialNumber, RecordedAt) " +
                                "VALUES (@badgeId, @SerialNumber, @recordedAt)";
-                // Assuming you want to record the time in RecordedAt field
                 connection.Execute(query, this);
             }
         }

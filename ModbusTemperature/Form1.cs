@@ -12,7 +12,9 @@ namespace ModbusTemperature
     {
         private System.Windows.Forms.Timer temperatureTimer;
         private bool isReading = false;
-        private ModelMaster masterModel = new ModelMaster();
+        //private DateTime startTime;
+        private List<ModelMaster> masterModels = new();
+        private string badgeId = string.Empty;
         private ModbusFactory factory = new ModbusFactory();
         public Form1()
         {
@@ -37,7 +39,7 @@ namespace ModbusTemperature
         {
             chart1.Series[0].XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
             chart1.ChartAreas[0].AxisX.LabelStyle.Format = "HH:mm:sss";
-            chart1.ChartAreas[0].AxisX.IntervalType = DateTimeIntervalType.Seconds;
+            chart1.ChartAreas[0].AxisX.IntervalType = DateTimeIntervalType.Minutes;
             chart1.ChartAreas[0].AxisX.Interval = 1;
             chart1.Series[0].YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
             chart1.Titles[0].Text = "Temperature Data, Serial Number: " + (details.Any() ? details.First().SerialNumber + " " + details.First().RecordedAt.ToString("yyyy") : "None");
@@ -52,7 +54,25 @@ namespace ModbusTemperature
         private void TemperatureTimer_Tick(object? sender, EventArgs e)
         {
             ReadTemperature();
+            // Stop reading after 1 minute
+            //if ((DateTime.Now - startTime).TotalSeconds >= 60)
+            //    if (timer1.Interval <= 50000)
+            //    {
+            //        temperatureTimer.Stop();
+            //        isReading = false;
+            //        MessageBox.Show("Temperature reading has been automatically stopped after 1 minute.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //    }
+
         }
+        //private void StartReadingTemperature()
+        //{
+        //    if (!isReading)
+        //    {
+        //        isReading = true;
+        //        startTime = DateTime.Now;
+        //        temperatureTimer.Start();
+        //    }
+        //}
 
         private void ReadTemperature()
         {
@@ -82,9 +102,15 @@ namespace ModbusTemperature
                 Random rnd = new Random();
                 double temperature = rnd.NextDouble();
                 temperature = temperature * 100;
-                ModelDetail detail = new ModelDetail(masterModel.SerialNumber, temperature);
-                detail.SaveDataDetail();
-                var details = ModelDetail.GetModelDetailsBySerialNumber(masterModel.SerialNumber);
+                // Save temperature for each scanned SerialNumber
+                foreach (var serialNumber in masterModels)
+                {
+                    ModelDetail detail = new ModelDetail(serialNumber.SerialNumber, temperature);
+                    detail.SaveDataDetail();
+                }
+                // Load the latest temperature data for the first SerialNumber
+                var details = ModelDetail.GetModelDetailsBySerialNumber(masterModels.First().SerialNumber);
+                details = details.TakeLast(10).ToList();
                 LoadDataDetailToChart(details);
             }
             catch (Exception ex)
@@ -100,39 +126,51 @@ namespace ModbusTemperature
         }
 
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            if (!isReading)
-            {
-                // Mulai pembacaan suhu setiap detik
-                isReading = true;
-                temperatureTimer.Start();
-                button1.Text = "Stop Reading";
-            }
-            else
-            {
-                // Berhenti membaca suhu
-                isReading = false;
-                temperatureTimer.Stop();
-                button1.Text = "Start Reading";
-            }
-        }
+        //private void button1_Click(object sender, EventArgs e)
+        //{
+        //    if (!isReading)
+        //    {
+        //        // Mulai pembacaan suhu setiap detik
+        //        isReading = false;
+        //        temperatureTimer.Start();
+        //        button1.Text = "Stop Reading";
+        //    }
+        //    else
+        //    {
 
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
+        //    }
+        //}
 
-
-        }
 
         private void textBox2_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
-            {
-                masterModel.SerialNumber = textBox2.Text;
-                masterModel.SaveMaster();
-                temperatureTimer.Start();
-                
-            }
+                if (masterModels.Count < 8)
+                {
+                    // When Serial Number is scanned, add it to the list and save the master data
+                    ModelMaster masterModel = new ModelMaster();
+                    masterModel.SerialNumber = textBox2.Text;
+                    masterModel.badgeId = badgeId;
+                    masterModels.Add(masterModel);
+                    textBox2.Clear();
+                    label1.Text = "- Badge ID: " + badgeId + "\n- Serial Numbers: " + string.Join("\n", masterModels.Select(x => x.SerialNumber).ToList());
+
+                    // If the limit of 8 serial numbers is reached, stop reading the temperature
+                    var result = MessageBox.Show("Tambah Serial Number lagi?", "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (result == DialogResult.No)
+                    {
+                        foreach (var _masterModel in masterModels)
+                        {
+                            _masterModel.SaveMaster();
+                        }
+                        isReading = true;
+                        temperatureTimer.Start();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Harap input minimal 1 Serial Number.", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
         }
 
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
@@ -140,14 +178,22 @@ namespace ModbusTemperature
             if (e.KeyCode == Keys.Enter)
             {
                 temperatureTimer.Stop();
-                masterModel.badgeId = textBox1.Text;
+                badgeId = textBox1.Text;
                 textBox2.Focus();
+                textBox1.Clear();
+                //label1.Text = "- Badge ID: " + masterModel.badgeId;
             }
         }
 
-        private void textBox3_TextChanged(object sender, EventArgs e)
+        private void label1_Click(object sender, EventArgs e)
         {
+            //label1.Text = "- Badge ID: " + masterModel.badgeId + "\n- Serial Number: " + masterModel.SerialNumber;
+        }
 
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            Form2 form2 = new Form2();
+            form2.Show();
         }
     }
 

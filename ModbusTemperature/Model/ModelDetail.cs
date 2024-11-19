@@ -22,14 +22,13 @@ namespace ModbusTemperature.Model
         public DateTime RecordedAt { get; set; } = DateTime.Now;
 
         // Metode untuk menyimpan data suhu ke database
-        public static void SaveDataDetail(string SerialNumber, double temperature)
+        public static void SaveDataDetail(List<ModelDetail> details)
         {
             using (var connection = ConfigDB.GetConnection())
             {
                 string query = "INSERT INTO TemperatureDataDetail (SerialNumber, TemperatureData, RecordedAt) " +
-                               "VALUES (@SerialNumber, @TemperatureData @recordedAt)";
-                // Assuming you want to record the time in RecordedAt field
-                connection.Execute(query, new { SerialNumber, temperature, recordedAt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") });
+                               "VALUES (@SerialNumber, @TemperatureData, @RecordedAt)";
+                connection.Execute(query, details);
             }
         }
 
@@ -47,7 +46,6 @@ namespace ModbusTemperature.Model
             {
                 string query = "INSERT INTO TemperatureDataDetail (SerialNumber, TemperatureData, RecordedAt) " +
                                "VALUES (@SerialNumber, @TemperatureData, @RecordedAt)";
-                // Assuming you want to record the time in RecordedAt field
                 connection.Execute(query, this);
             }
         }

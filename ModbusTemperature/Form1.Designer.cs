@@ -29,53 +29,48 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
             textBox1 = new TextBox();
-            button1 = new Button();
             toolTip1 = new ToolTip(components);
             panel2 = new Panel();
-            textBox3 = new TextBox();
+            panel1 = new Panel();
+            label5 = new Label();
+            pictureBox1 = new PictureBox();
+            label3 = new Label();
+            label1 = new Label();
             label4 = new Label();
             textBox2 = new TextBox();
             label2 = new Label();
-            button2 = new Button();
             backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             panel2.SuspendLayout();
+            panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)chart1).BeginInit();
             SuspendLayout();
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(23, 210);
+            textBox1.Location = new Point(34, 57);
             textBox1.Multiline = true;
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(359, 31);
+            textBox1.Size = new Size(359, 46);
             textBox1.TabIndex = 1;
             textBox1.KeyDown += textBox1_KeyDown;
-            // 
-            // button1
-            // 
-            button1.Location = new Point(230, 59);
-            button1.Name = "button1";
-            button1.Size = new Size(152, 29);
-            button1.TabIndex = 2;
-            button1.Text = "Start";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
             // 
             // panel2
             // 
             panel2.BackColor = Color.White;
-            panel2.Controls.Add(textBox3);
-            panel2.Controls.Add(button1);
+            panel2.Controls.Add(panel1);
+            panel2.Controls.Add(label3);
+            panel2.Controls.Add(label1);
             panel2.Controls.Add(label4);
             panel2.Controls.Add(textBox2);
             panel2.Controls.Add(label2);
-            panel2.Controls.Add(button2);
             panel2.Controls.Add(textBox1);
             panel2.Dock = DockStyle.Left;
             panel2.Location = new Point(0, 0);
@@ -83,54 +78,86 @@
             panel2.Size = new Size(418, 579);
             panel2.TabIndex = 4;
             // 
-            // textBox3
+            // panel1
             // 
-            textBox3.Location = new Point(23, 42);
-            textBox3.Multiline = true;
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(175, 73);
-            textBox3.TabIndex = 5;
-            textBox3.TextChanged += textBox3_TextChanged;
+            panel1.BackColor = SystemColors.Control;
+            panel1.Controls.Add(label5);
+            panel1.Controls.Add(pictureBox1);
+            panel1.Location = new Point(0, 511);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(418, 68);
+            panel1.TabIndex = 9;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Font = new Font("RomanS_IV25", 9.75F, FontStyle.Italic, GraphicsUnit.Point, 0);
+            label5.Location = new Point(0, 29);
+            label5.Name = "label5";
+            label5.Size = new Size(203, 15);
+            label5.TabIndex = 9;
+            label5.Text = "Cilck Icon To Show Table";
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(219, 17);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(46, 36);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 8;
+            pictureBox1.TabStop = false;
+            pictureBox1.Click += pictureBox1_Click;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            label3.Location = new Point(34, 237);
+            label3.Name = "label3";
+            label3.Size = new Size(136, 20);
+            label3.TabIndex = 7;
+            label3.Text = "List Transaction : ";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            label1.Location = new Point(34, 269);
+            label1.Name = "label1";
+            label1.Size = new Size(19, 20);
+            label1.TabIndex = 6;
+            label1.Text = "- ";
+            label1.Click += label1_Click;
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 9F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            label4.Location = new Point(23, 258);
+            label4.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            label4.Location = new Point(34, 131);
             label4.Name = "label4";
-            label4.Size = new Size(117, 15);
+            label4.Size = new Size(149, 20);
             label4.TabIndex = 5;
             label4.Text = "Scan Serial Number";
             // 
             // textBox2
             // 
-            textBox2.Location = new Point(23, 285);
+            textBox2.Location = new Point(34, 154);
             textBox2.Multiline = true;
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(359, 31);
+            textBox2.Size = new Size(359, 48);
             textBox2.TabIndex = 4;
             textBox2.KeyDown += textBox2_KeyDown;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 9F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            label2.Location = new Point(23, 192);
+            label2.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            label2.Location = new Point(34, 34);
             label2.Name = "label2";
-            label2.Size = new Size(81, 15);
+            label2.Size = new Size(104, 20);
             label2.TabIndex = 3;
             label2.Text = "Scan badgeId";
-            // 
-            // button2
-            // 
-            button2.BackColor = SystemColors.GradientActiveCaption;
-            button2.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            button2.Location = new Point(23, 332);
-            button2.Name = "button2";
-            button2.Size = new Size(264, 30);
-            button2.TabIndex = 2;
-            button2.Text = "Submit";
-            button2.UseVisualStyleBackColor = false;
             // 
             // chart1
             // 
@@ -149,7 +176,7 @@
             series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
             series1.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
             chart1.Series.Add(series1);
-            chart1.Size = new Size(1017, 579);
+            chart1.Size = new Size(1037, 579);
             chart1.TabIndex = 5;
             chart1.Text = "Chart Temperature Data";
             chart1.TextAntiAliasingQuality = System.Windows.Forms.DataVisualization.Charting.TextAntiAliasingQuality.Normal;
@@ -167,25 +194,29 @@
             FormBorderStyle = FormBorderStyle.None;
             Name = "Form1";
             Text = "Form1";
-            WindowState = FormWindowState.Maximized;
             Load += Form1_Load;
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)chart1).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
         private TextBox textBox1;
-        private Button button1;
         private ToolTip toolTip1;
         private Panel panel2;
         private Label label2;
-        private Button button2;
         private Label label4;
         private TextBox textBox2;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private TextBox textBox3;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private Label label1;
+        private Label label3;
+        private PictureBox pictureBox1;
+        private Panel panel1;
+        private Label label5;
     }
 }
