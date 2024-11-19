@@ -12,7 +12,7 @@ namespace ModbusTemperature
     {
         private System.Windows.Forms.Timer temperatureTimer;
         private bool isReading = false;
-        //private DateTime startTime;
+        private DateTime startTime;
         private List<ModelMaster> masterModels = new();
         private string badgeId = string.Empty;
         private ModbusFactory factory = new ModbusFactory();
@@ -54,14 +54,14 @@ namespace ModbusTemperature
         private void TemperatureTimer_Tick(object? sender, EventArgs e)
         {
             ReadTemperature();
-            // Stop reading after 1 minute
-            //if ((DateTime.Now - startTime).TotalSeconds >= 60)
-            //    if (timer1.Interval <= 50000)
-            //    {
-            //        temperatureTimer.Stop();
-            //        isReading = false;
-            //        MessageBox.Show("Temperature reading has been automatically stopped after 1 minute.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //    }
+            //Stop reading after 1 minute
+            if ((DateTime.Now - startTime).TotalSeconds >= 60)
+                if (temperatureTimer.Interval >= 50000)
+                {
+                    temperatureTimer.Stop();
+                    isReading = false;
+                    MessageBox.Show("Temperature reading has been automatically stopped after 1 minute.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
 
         }
         //private void StartReadingTemperature()
@@ -112,6 +112,7 @@ namespace ModbusTemperature
                 var details = ModelDetail.GetModelDetailsBySerialNumber(masterModels.First().SerialNumber);
                 details = details.TakeLast(10).ToList();
                 LoadDataDetailToChart(details);
+                textBox3.Text = $"{temperature} °C";
             }
             catch (Exception ex)
             {
@@ -153,7 +154,7 @@ namespace ModbusTemperature
                     masterModel.badgeId = badgeId;
                     masterModels.Add(masterModel);
                     textBox2.Clear();
-                    label1.Text = "- Badge ID: " + badgeId + "\n- Serial Numbers: " + string.Join("\n", masterModels.Select(x => x.SerialNumber).ToList());
+                    label1.Text = "- Badge ID: " + badgeId + "\n- Serial Numbers: " + "\n" + string.Join("\n", masterModels.Select(x => x.SerialNumber).ToList());
 
                     // If the limit of 8 serial numbers is reached, stop reading the temperature
                     var result = MessageBox.Show("Tambah Serial Number lagi?", "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -194,6 +195,11 @@ namespace ModbusTemperature
         {
             Form2 form2 = new Form2();
             form2.Show();
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 
