@@ -55,7 +55,7 @@ namespace ModbusTemperature
         {
             ReadTemperature();
             //Stop reading after 1 minute
-            if ((DateTime.Now - startTime).TotalSeconds >= 60)
+            if ((DateTime.Now - startTime).TotalSeconds <= 60)
                 if (temperatureTimer.Interval >= 50000)
                 {
                     temperatureTimer.Stop();
@@ -64,15 +64,15 @@ namespace ModbusTemperature
                 }
 
         }
-        //private void StartReadingTemperature()
-        //{
-        //    if (!isReading)
-        //    {
-        //        isReading = true;
-        //        startTime = DateTime.Now;
-        //        temperatureTimer.Start();
-        //    }
-        //}
+        private void StartReadingTemperature()
+        {
+            if (!isReading)
+            {
+                isReading = true;
+                startTime = DateTime.Now;
+                temperatureTimer.Start();
+            }
+        }
 
         private void ReadTemperature()
         {
