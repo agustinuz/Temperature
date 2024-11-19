@@ -149,7 +149,7 @@ namespace ModbusTemperature
         private double ConvertRegisterToTemperature(ushort registerValue)
         {
             // Contoh konversi, disesuaikan dengan format data perangkat
-            return registerValue * 0.1; // Misalnya skala nilai register dengan faktor 0.1 menjadi °C
+            return registerValue / 200; // Misalnya skala nilai register dengan faktor 0.1 menjadi °C
         }
 
 
