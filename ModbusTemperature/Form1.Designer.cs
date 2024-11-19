@@ -29,207 +29,202 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            textBox1 = new TextBox();
             toolTip1 = new ToolTip(components);
-            panel2 = new Panel();
-            panel1 = new Panel();
-            label5 = new Label();
-            pictureBox1 = new PictureBox();
-            label3 = new Label();
-            label1 = new Label();
-            label4 = new Label();
-            textBox2 = new TextBox();
-            label2 = new Label();
             backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            textBox3 = new TextBox();
-            panel2.SuspendLayout();
-            panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)chart1).BeginInit();
+            panel3 = new Panel();
+            button2 = new Button();
+            button3 = new Button();
+            textBox10 = new TextBox();
+            textBox9 = new TextBox();
+            textBox8 = new TextBox();
+            textBox7 = new TextBox();
+            textBox6 = new TextBox();
+            textBox5 = new TextBox();
+            textBox4 = new TextBox();
+            textBox11 = new TextBox();
+            label6 = new Label();
+            label7 = new Label();
+            textBox12 = new TextBox();
+            textBox13 = new TextBox();
+            panel3.SuspendLayout();
             SuspendLayout();
             // 
-            // textBox1
+            // panel3
             // 
-            textBox1.Location = new Point(34, 57);
-            textBox1.Multiline = true;
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(359, 46);
-            textBox1.TabIndex = 1;
-            textBox1.KeyDown += textBox1_KeyDown;
+            panel3.BackColor = Color.White;
+            panel3.Controls.Add(button2);
+            panel3.Controls.Add(button3);
+            panel3.Controls.Add(textBox10);
+            panel3.Controls.Add(textBox9);
+            panel3.Controls.Add(textBox8);
+            panel3.Controls.Add(textBox7);
+            panel3.Controls.Add(textBox6);
+            panel3.Controls.Add(textBox5);
+            panel3.Controls.Add(textBox4);
+            panel3.Controls.Add(textBox11);
+            panel3.Controls.Add(label6);
+            panel3.Controls.Add(label7);
+            panel3.Controls.Add(textBox12);
+            panel3.Controls.Add(textBox13);
+            panel3.Location = new Point(453, 36);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(351, 552);
+            panel3.TabIndex = 11;
             // 
-            // panel2
+            // button2
             // 
-            panel2.BackColor = Color.White;
-            panel2.Controls.Add(panel1);
-            panel2.Controls.Add(label3);
-            panel2.Controls.Add(label1);
-            panel2.Controls.Add(label4);
-            panel2.Controls.Add(textBox2);
-            panel2.Controls.Add(label2);
-            panel2.Controls.Add(textBox1);
-            panel2.Dock = DockStyle.Left;
-            panel2.Location = new Point(0, 0);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(418, 579);
-            panel2.TabIndex = 4;
+            button2.FlatAppearance.BorderSize = 0;
+            button2.FlatAppearance.MouseDownBackColor = Color.Silver;
+            button2.Location = new Point(201, 462);
+            button2.Name = "button2";
+            button2.Size = new Size(117, 53);
+            button2.TabIndex = 14;
+            button2.Text = "OPEN";
+            button2.UseVisualStyleBackColor = true;
             // 
-            // panel1
+            // button3
             // 
-            panel1.BackColor = SystemColors.Control;
-            panel1.Controls.Add(label5);
-            panel1.Controls.Add(pictureBox1);
-            panel1.Location = new Point(0, 511);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(418, 68);
-            panel1.TabIndex = 9;
+            button3.FlatAppearance.BorderSize = 0;
+            button3.FlatAppearance.MouseDownBackColor = Color.Silver;
+            button3.Location = new Point(30, 462);
+            button3.Name = "button3";
+            button3.Size = new Size(117, 53);
+            button3.TabIndex = 13;
+            button3.Text = "START";
+            button3.UseVisualStyleBackColor = true;
             // 
-            // label5
+            // textBox10
             // 
-            label5.AutoSize = true;
-            label5.Font = new Font("RomanS_IV25", 9.75F, FontStyle.Italic, GraphicsUnit.Point, 0);
-            label5.Location = new Point(0, 29);
-            label5.Name = "label5";
-            label5.Size = new Size(203, 15);
-            label5.TabIndex = 9;
-            label5.Text = "Cilck Icon To Show Table";
+            textBox10.Location = new Point(30, 388);
+            textBox10.Multiline = true;
+            textBox10.Name = "textBox10";
+            textBox10.Size = new Size(288, 29);
+            textBox10.TabIndex = 12;
             // 
-            // pictureBox1
+            // textBox9
             // 
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(219, 17);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(46, 36);
-            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox1.TabIndex = 8;
-            pictureBox1.TabStop = false;
-            pictureBox1.Click += pictureBox1_Click;
+            textBox9.Location = new Point(30, 353);
+            textBox9.Multiline = true;
+            textBox9.Name = "textBox9";
+            textBox9.Size = new Size(288, 29);
+            textBox9.TabIndex = 11;
             // 
-            // label3
+            // textBox8
             // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            label3.Location = new Point(34, 237);
-            label3.Name = "label3";
-            label3.Size = new Size(136, 20);
-            label3.TabIndex = 7;
-            label3.Text = "List Transaction : ";
+            textBox8.Location = new Point(30, 318);
+            textBox8.Multiline = true;
+            textBox8.Name = "textBox8";
+            textBox8.Size = new Size(288, 29);
+            textBox8.TabIndex = 10;
             // 
-            // label1
+            // textBox7
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            label1.Location = new Point(34, 269);
-            label1.Name = "label1";
-            label1.Size = new Size(19, 20);
-            label1.TabIndex = 6;
-            label1.Text = "- ";
-            label1.Click += label1_Click;
+            textBox7.Location = new Point(30, 283);
+            textBox7.Multiline = true;
+            textBox7.Name = "textBox7";
+            textBox7.Size = new Size(288, 29);
+            textBox7.TabIndex = 9;
             // 
-            // label4
+            // textBox6
             // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            label4.Location = new Point(34, 131);
-            label4.Name = "label4";
-            label4.Size = new Size(149, 20);
-            label4.TabIndex = 5;
-            label4.Text = "Scan Serial Number";
+            textBox6.Location = new Point(30, 248);
+            textBox6.Multiline = true;
+            textBox6.Name = "textBox6";
+            textBox6.Size = new Size(288, 29);
+            textBox6.TabIndex = 8;
             // 
-            // textBox2
+            // textBox5
             // 
-            textBox2.Location = new Point(34, 154);
-            textBox2.Multiline = true;
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(359, 48);
-            textBox2.TabIndex = 4;
-            textBox2.KeyDown += textBox2_KeyDown;
+            textBox5.Location = new Point(30, 248);
+            textBox5.Multiline = true;
+            textBox5.Name = "textBox5";
+            textBox5.Size = new Size(288, 29);
+            textBox5.TabIndex = 7;
             // 
-            // label2
+            // textBox4
             // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            label2.Location = new Point(34, 34);
-            label2.Name = "label2";
-            label2.Size = new Size(104, 20);
-            label2.TabIndex = 3;
-            label2.Text = "Scan badgeId";
+            textBox4.Location = new Point(30, 213);
+            textBox4.Multiline = true;
+            textBox4.Name = "textBox4";
+            textBox4.Size = new Size(288, 29);
+            textBox4.TabIndex = 6;
             // 
-            // chart1
+            // textBox11
             // 
-            chart1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            chartArea2.Name = "ChartArea1";
-            chart1.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            chart1.Legends.Add(legend2);
-            chart1.Location = new Point(424, 0);
-            chart1.Name = "chart1";
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series2.IsXValueIndexed = true;
-            series2.Legend = "Legend1";
-            series2.Name = "Data Temperature";
-            series2.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
-            series2.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
-            chart1.Series.Add(series2);
-            chart1.Size = new Size(1037, 579);
-            chart1.TabIndex = 5;
-            chart1.Text = "Chart Temperature Data";
-            chart1.TextAntiAliasingQuality = System.Windows.Forms.DataVisualization.Charting.TextAntiAliasingQuality.Normal;
-            title2.Name = "Title1";
-            title2.Text = "Temperature Chart";
-            chart1.Titles.Add(title2);
+            textBox11.Location = new Point(30, 178);
+            textBox11.Multiline = true;
+            textBox11.Name = "textBox11";
+            textBox11.Size = new Size(288, 29);
+            textBox11.TabIndex = 5;
             // 
-            // textBox3
+            // label6
             // 
-            textBox3.Location = new Point(1304, 80);
-            textBox3.Multiline = true;
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(137, 39);
-            textBox3.TabIndex = 10;
-            textBox3.TextChanged += textBox3_TextChanged;
+            label6.AutoSize = true;
+            label6.Font = new Font("Lucida Sans", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label6.Location = new Point(47, 28);
+            label6.Name = "label6";
+            label6.Size = new Size(67, 18);
+            label6.TabIndex = 4;
+            label6.Text = "User Id";
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Font = new Font("Lucida Sans", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label7.Location = new Point(117, 100);
+            label7.Name = "label7";
+            label7.Size = new Size(85, 18);
+            label7.TabIndex = 3;
+            label7.Text = "Serial No.";
+            // 
+            // textBox12
+            // 
+            textBox12.Location = new Point(30, 143);
+            textBox12.Multiline = true;
+            textBox12.Name = "textBox12";
+            textBox12.Size = new Size(288, 29);
+            textBox12.TabIndex = 2;
+            // 
+            // textBox13
+            // 
+            textBox13.Location = new Point(131, 21);
+            textBox13.Multiline = true;
+            textBox13.Name = "textBox13";
+            textBox13.Size = new Size(156, 31);
+            textBox13.TabIndex = 1;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1453, 579);
-            Controls.Add(textBox3);
-            Controls.Add(chart1);
-            Controls.Add(panel2);
+            ClientSize = new Size(1267, 619);
+            Controls.Add(panel3);
             FormBorderStyle = FormBorderStyle.None;
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load;
-            panel2.ResumeLayout(false);
-            panel2.PerformLayout();
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)chart1).EndInit();
+            panel3.ResumeLayout(false);
+            panel3.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
-        private TextBox textBox1;
         private ToolTip toolTip1;
-        private Panel panel2;
-        private Label label2;
-        private Label label4;
-        private TextBox textBox2;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-        private Label label1;
-        private Label label3;
-        private PictureBox pictureBox1;
-        private Panel panel1;
-        private Label label5;
-        private TextBox textBox3;
+        private Panel panel3;
+        private Button button2;
+        private Button button3;
+        private TextBox textBox10;
+        private TextBox textBox9;
+        private TextBox textBox8;
+        private TextBox textBox7;
+        private TextBox textBox6;
+        private TextBox textBox5;
+        private TextBox textBox4;
+        private TextBox textBox11;
+        private Label label6;
+        private Label label7;
+        private TextBox textBox12;
+        private TextBox textBox13;
     }
 }
