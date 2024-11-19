@@ -55,31 +55,18 @@ namespace ModbusTemperature
         private void TemperatureTimer_Tick(object? sender, EventArgs e)
         {
             ReadTemperature();
+            string[] pathNames = new string[masterModels.Count];
             //Stop reading after 1 minute
             if (startTime.AddSeconds(10) <= DateTime.Now)
-            { 
-                if (temperatureTimer.Interval >= 50000)
-                {
-                    temperatureTimer.Stop();
-                    isReading = false;
-                    MessageBox.Show("Temperature reading has been automatically stopped after 1 minute.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    string imgPath = Path.Combine(AppContext.BaseDirectory, "chart1.jpg");
-                    if (File.Exists(imgPath))
-                        File.Delete(imgPath);
-                    chart1.SaveImage(Path.Combine(AppContext.BaseDirectory, "chart1.jpg"), ChartImageFormat.Jpeg);
-                    PDFUtility.ImageToPdf(Path.Combine(AppContext.BaseDirectory, "chart1.jpg"), "pdf1.pdf");
-                }
-                else
-                {
-
-                    temperatureTimer.Stop();
-                    isReading = false;
-                    string imgPath = Path.Combine(AppContext.BaseDirectory, "chart1.jpg");
-                    if (File.Exists(imgPath))
-                        File.Delete(imgPath);
-                    chart1.SaveImage(Path.Combine(AppContext.BaseDirectory, "chart1.jpg"), ChartImageFormat.Jpeg);
-                    PDFUtility.ImageToPdf(Path.Combine(AppContext.BaseDirectory, "chart1.jpg"), "pdf1.pdf");
-                }
+            {
+                temperatureTimer.Stop();
+                isReading = false;
+                MessageBox.Show("Temperature reading has been automatically stopped after 1 minute.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                string imgPath = Path.Combine(AppContext.BaseDirectory, "chart1.jpg");
+                if (File.Exists(imgPath))
+                    File.Delete(imgPath);
+                chart1.SaveImage(Path.Combine(AppContext.BaseDirectory, "chart1.jpg"), ChartImageFormat.Jpeg);
+                PDFUtility.ImageToPdf(Path.Combine(AppContext.BaseDirectory, "chart1.jpg"), "pdf1.pdf");
             }
 
         }
@@ -172,6 +159,7 @@ namespace ModbusTemperature
         private void textBox2_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
+            {
                 if (masterModels.Count < 8)
                 {
                     // When Serial Number is scanned, add it to the list and save the master data
@@ -180,7 +168,7 @@ namespace ModbusTemperature
                     masterModel.badgeId = badgeId;
                     masterModels.Add(masterModel);
                     textBox2.Clear();
-                    label1.Text = "Badge ID: " + "\n -"+ badgeId + "\n Serial Numbers: " + "\n -" + string.Join("\n -", masterModels.Select(x => x.SerialNumber).ToList());
+                    label1.Text = "Badge ID: " + "\n -" + badgeId + "\n Serial Numbers: " + "\n -" + string.Join("\n -", masterModels.Select(x => x.SerialNumber).ToList());
 
                     // If the limit of 8 serial numbers is reached, stop reading the temperature
                     var result = MessageBox.Show("Tambah Serial Number lagi?", "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -197,6 +185,7 @@ namespace ModbusTemperature
                 {
                     MessageBox.Show("Harap input minimal 1 Serial Number.", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
+            }
         }
 
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
