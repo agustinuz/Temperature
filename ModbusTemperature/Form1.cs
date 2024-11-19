@@ -149,7 +149,7 @@ namespace ModbusTemperature
         private double ConvertRegisterToTemperature(ushort registerValue)
         {
             // Contoh konversi, disesuaikan dengan format data perangkat
-            return (double)(Convert.ToDouble((registerValue).ToString())/2180) ; // Misalnya skala nilai register dengan faktor 0.1 menjadi °C
+            return (((double)registerValue)-65400) ; // Misalnya skala nilai register dengan faktor 0.1 menjadi °C
         }
 
 
