@@ -65,7 +65,7 @@ namespace ModbusTemperature
         }
         private void TemperatureTimer_Tick(object? sender, EventArgs e)
         {
-//            ReadTemperature();
+            //            ReadTemperature();
             string[] pathNames = new string[masterModels.Count];
             //Stop reading after 1 minute
             if (startTime.AddMinutes(1) <= DateTime.Now)
@@ -102,7 +102,7 @@ namespace ModbusTemperature
         private void button3_Click(object sender, EventArgs e)
         {
             string[] serials = GetSerialNumbersFromTextboxes();
-            for (int i=0;i<serials.Length;i++)
+            for (int i = 0; i < serials.Length; i++)
             {
                 if (serials[i] != "")
                 {
@@ -112,7 +112,7 @@ namespace ModbusTemperature
                     masterModels.Add(masterModel);
                 }
             }
-            Form2 frm = new Form2(masterModels.ToArray(), badgeId);
+            Form2 frm = new Form2(masterModels.ToArray(), badgeId,true);
             frm.ShowDialog();
         }
 
@@ -131,8 +131,20 @@ namespace ModbusTemperature
             {
                 badgeId = textBox13.Text;
                 panel3.Controls.OfType<TextBox>().Where(x => x.TabIndex == 2).First().Focus();
-            } 
-                
+            }
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            var lastMasterData = ModelMaster.GetLastMasterDataByScanCodeTime();
+            if (lastMasterData is null)
+            {
+                MessageBox.Show("No Data Found");
+                return;
+            }
+            Form2 frm = new Form2([lastMasterData], lastMasterData?.badgeId ?? "",false);
+            frm.ShowDialog();
         }
     }
 

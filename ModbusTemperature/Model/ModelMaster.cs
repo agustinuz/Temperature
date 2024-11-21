@@ -25,6 +25,18 @@ namespace ModbusTemperature.Model
                 connection.Execute(query, parameters);
             }
         }
+
+        public static ModelMaster? GetLastMasterDataByScanCodeTime()
+        {
+            using (var connection = ConfigDB.GetConnection())
+            {
+                string query = @"SELECT badgeId,SerialNumber,RecordedAt
+                                    FROM [TemperatureDataMaster] order by recordedAt Desc";
+                // Assuming you want to record the time in RecordedAt field
+                var dataMaster = connection.Query<ModelMaster>(query).FirstOrDefault();
+                return dataMaster;
+            }
+        }
         public static List<ModelDetail> GetLastTemperatureDataByScanCodeTime()
         {
             using (var connection = ConfigDB.GetConnection())
