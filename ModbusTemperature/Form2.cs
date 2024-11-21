@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using ModbusTemperature.Model;
 using ModbusTemperature.Utility;
+using NModbus;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,6 +20,7 @@ namespace ModbusTemperature
 
         private System.Windows.Forms.Timer temperatureTimer;
         private ModelMaster[] masterModels;
+        private ModbusFactory factory = new ModbusFactory();
         string badgeId = string.Empty;
         bool isReading = false;
         private DateTime startTime;
@@ -134,7 +136,7 @@ namespace ModbusTemperature
         private double ConvertRegisterToTemperature(ushort registerValue)
         {
             // Contoh konversi, disesuaikan dengan format data perangkat
-            return (((double)registerValue) - 65400); // Misalnya skala nilai register dengan faktor 0.1 menjadi °C
+            return registerValue * 0.1; // Misalnya skala nilai register dengan faktor 0.1 menjadi °C
         }
         private void LoadDataDetailToChart(List<ModelDetail> details)
         {
