@@ -110,14 +110,15 @@
             // 
             // panel2
             // 
-            panel2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
+            panel2.AutoSize = true;
             panel2.Controls.Add(panel4);
             panel2.Controls.Add(button1);
             panel2.Controls.Add(panel5);
             panel2.Controls.Add(panel6);
-            panel2.Location = new Point(0, 0);
+            panel2.Dock = DockStyle.Left;
+            panel2.Location = new Point(5, 5);
             panel2.Name = "panel2";
-            panel2.Size = new Size(222, 668);
+            panel2.Size = new Size(225, 658);
             panel2.TabIndex = 11;
             // 
             // panel4
@@ -293,8 +294,10 @@
             Controls.Add(panel1);
             Name = "Form2";
             Text = "Form2";
+            WindowState = FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)chart1).EndInit();
             panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             panel3.ResumeLayout(false);
             panel2.ResumeLayout(false);
             panel4.ResumeLayout(false);
