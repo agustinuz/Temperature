@@ -112,7 +112,7 @@ namespace ModbusTemperature
                     masterModels.Add(masterModel);
                 }
             }
-            Form2 frm = new Form2(masterModels.ToArray(), badgeId);
+            Form2 frm = new Form2(masterModels.ToArray(), badgeId,true);
             frm.Show();
             masterModels.Clear();
             badgeId = "";
@@ -175,7 +175,8 @@ namespace ModbusTemperature
                 return;
             }
             Form2 frm = new Form2([lastMasterData], lastMasterData?.badgeId ?? "",false);
-            frm.ShowDialog();
+            frm.Show();
+            
         }
     }
 

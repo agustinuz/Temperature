@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace ModbusTemperature
 {
@@ -35,8 +36,14 @@ namespace ModbusTemperature
             label8,
             label9
         ];
+        void setChartSerialNumberTitle(ModelMaster master)
+        {
+            chart1.Titles[0].Text = "Temperature Data, Serial Number: " + (master.SerialNumber + " "  + master.RecordedAt.ToString("yyyy")) ;
+            chart1.Invalidate();
+        }
         public Form2(ModelMaster[] _masterModels, string _badgeId,bool startRunning)
         {
+            temperatureTimer = new System.Windows.Forms.Timer();
             badgeId = _badgeId;
             masterModels = _masterModels;
             InitializeComponent();
@@ -87,7 +94,6 @@ namespace ModbusTemperature
                 }
                 return;
             }
-            temperatureTimer = new System.Windows.Forms.Timer();
             temperatureTimer.Interval = 1000;
             temperatureTimer.Tick += TemperatureTimer_Tick;
             startTime = DateTime.Now;
@@ -173,6 +179,11 @@ namespace ModbusTemperature
                 MessageBox.Show($"Error reading temperature: {ex.Message}");
             }
         }
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            temperatureTimer.Stop();
+            base.OnFormClosed(e);
+        }
         // Fungsi konversi nilai register ke suhu
         private double ConvertRegisterToTemperature(ushort registerValue)
         {
@@ -226,12 +237,19 @@ namespace ModbusTemperature
                 temperatureTimer.Stop();
                 isReading = false;
                 MessageBox.Show("Temperature reading has been automatically stopped after 1 minute.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                string imgPath = Path.Combine(AppContext.BaseDirectory, "chart1.jpg");
-                if (File.Exists(imgPath))
-                    File.Delete(imgPath);
-                chart1.SaveImage(Path.Combine(AppContext.BaseDirectory, "chart1.jpg"), ChartImageFormat.Jpeg);
-                PDFUtility.ImageToPdf(Path.Combine(AppContext.BaseDirectory, "chart1.jpg"), "C:\\Users\\DELL\\Music\\CymberReport\\pdf1.pdf");
-                this.Close();
+                string[] sourceImages = new string[masterModels.Length];
+                for (int i = 0; i < masterModels.Length; i++)
+                {
+                    setChartSerialNumberTitle(masterModels[i]);
+                    string imgPath = sourceImages[i] = Path.Combine(AppContext.BaseDirectory, $"{masterModels[i].SerialNumber}.jpg");
+                    
+                    if (File.Exists(imgPath))
+                        File.Delete(imgPath);
+                    chart1.SaveImage(Path.Combine(AppContext.BaseDirectory, $"{masterModels[i].SerialNumber}.jpg"), ChartImageFormat.Jpeg);
+                }
+                PDFUtility.MasterModelToPDF(sourceImages, Path.Combine(AppContext.BaseDirectory, $"{masterModels[0].badgeId}_{masterModels[0].RecordedAt.ToString("yyyy-MM-dd")}.pdf"));
+//                PDFUtility.ImageToPdf(Path.Combine(AppContext.BaseDirectory, "chart1.jpg"), "C:\\Users\\DELL\\Music\\CymberReport\\pdf1.pdf");
+//                this.Close();
             }
         }
 
