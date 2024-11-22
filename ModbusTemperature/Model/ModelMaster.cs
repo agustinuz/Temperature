@@ -48,5 +48,16 @@ namespace ModbusTemperature.Model
                 connection.Execute(query, this);
             }
         }
+
+        // Metode untuk mengecek keberadaan badgeId di database
+        public static bool IsBadgeIdExists(string badgeId)
+        {
+            using (var connection = ConfigDB.GetConnection())
+            {
+                string query = "SELECT COUNT(1) FROM Employee WHERE badgeId = @badgeId";
+                int count = connection.ExecuteScalar<int>(query, new { badgeId });
+                return count > 0;
+            }
+        }
     }
 }

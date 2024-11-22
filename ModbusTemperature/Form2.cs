@@ -50,9 +50,9 @@ namespace ModbusTemperature
             temperatureTimer.Interval = 1000;
             temperatureTimer.Tick += TemperatureTimer_Tick;
             startTime = DateTime.Now;
-            endTime = startTime.AddHours(8);
+            endTime = startTime.AddMinutes(2);
             StartReadingTemperature();
-            label10.Text = $"DATE {startTime.ToString("yyyy MMM dd")}";
+            label10.Text = $"date :  {startTime.ToString("yyyy MMM dd")}";
             label11.Text = $"Start Running : {startTime.ToString("HH:mm:ss")}";
             label12.Text = $"Estimation Stop  : {endTime.ToString("HH:mm:ss")}";
 
@@ -169,7 +169,7 @@ namespace ModbusTemperature
                 if (File.Exists(imgPath))
                     File.Delete(imgPath);
                 chart1.SaveImage(Path.Combine(AppContext.BaseDirectory, "chart1.jpg"), ChartImageFormat.Jpeg);
-                PDFUtility.ImageToPdf(Path.Combine(AppContext.BaseDirectory, "chart1.jpg"), "pdf1.pdf");
+                PDFUtility.ImageToPdf(Path.Combine(AppContext.BaseDirectory, "chart1.jpg"), "C:\\Users\\DELL\\Music\\CymberReport\\pdf1.pdf");
                 this.Close();
             }
         }

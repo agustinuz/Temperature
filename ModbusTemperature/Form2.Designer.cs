@@ -91,7 +91,6 @@
             // 
             panel1.Controls.Add(panel3);
             panel1.Controls.Add(panel2);
-            panel1.Dock = DockStyle.Fill;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
             panel1.Padding = new Padding(5);

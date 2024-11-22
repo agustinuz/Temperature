@@ -65,7 +65,7 @@ namespace ModbusTemperature
         }
         private void TemperatureTimer_Tick(object? sender, EventArgs e)
         {
-//            ReadTemperature();
+            //            ReadTemperature();
             string[] pathNames = new string[masterModels.Count];
             //Stop reading after 1 minute
             if (startTime.AddMinutes(1) <= DateTime.Now)
@@ -102,7 +102,7 @@ namespace ModbusTemperature
         private void button3_Click(object sender, EventArgs e)
         {
             string[] serials = GetSerialNumbersFromTextboxes();
-            for (int i=0;i<serials.Length;i++)
+            for (int i = 0; i < serials.Length; i++)
             {
                 if (serials[i] != "")
                 {
@@ -113,7 +113,10 @@ namespace ModbusTemperature
                 }
             }
             Form2 frm = new Form2(masterModels.ToArray(), badgeId);
-            frm.ShowDialog();
+            frm.Show();
+            masterModels.Clear();
+            badgeId = "";
+            ClearTextboxes();
         }
 
         private void serialInputDown(object sender, KeyEventArgs e)
@@ -123,6 +126,7 @@ namespace ModbusTemperature
             Control ctrl = (Control)sender;
             int nextControls = ctrl.TabIndex >= 9 ? 2 : ctrl.TabIndex + 1;
             panel3.Controls.OfType<TextBox>().Where(x => x.TabIndex == nextControls).First().Focus();
+            e.SuppressKeyPress = true;
         }
 
         private void textBox13_KeyDown(object sender, KeyEventArgs e)
@@ -130,10 +134,39 @@ namespace ModbusTemperature
             if (e.KeyCode == Keys.Enter)
             {
                 badgeId = textBox13.Text;
+                // Validasi apakah badgeId sudah ada di database
+                if (!ModelMaster.IsBadgeIdExists(badgeId))
+                {
+                    // Tampilkan pesan peringatan jika Badge ID tidak ditemukan
+                    MessageBox.Show(
+                        "Badge ID tidak ditemukan. Silakan periksa kembali.",
+                        "Peringatan",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning
+                    );
+
+                    // Kosongkan textbox Badge ID untuk input ulang
+                    textBox13.Clear();
+                    return;
+                }
                 panel3.Controls.OfType<TextBox>().Where(x => x.TabIndex == 2).First().Focus();
-            } 
-                
+                e.SuppressKeyPress = true;
+            }
+
         }
+        private void ClearTextboxes()
+        {
+            // Kosongkan Badge ID textbox
+            textBox13.Text = "";
+
+            // Kosongkan semua textboxes untuk serial numbers (TabIndex terkait)
+            foreach (var textBox in panel3.Controls.OfType<TextBox>())
+            {
+                textBox.Text = "";
+            }
+        }
+
+        
     }
 
 }
