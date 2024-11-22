@@ -94,6 +94,7 @@
             // 
             panel1.Controls.Add(panel3);
             panel1.Controls.Add(panel2);
+            panel1.Dock = DockStyle.Fill;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
             panel1.Padding = new Padding(5);
@@ -275,7 +276,7 @@
             label12.Name = "label12";
             label12.Size = new Size(212, 18);
             label12.TabIndex = 16;
-            label12.Text = "Estimation Stop  : ";
+            label12.Text = "Stop Estimation: ";
             label12.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // label11
