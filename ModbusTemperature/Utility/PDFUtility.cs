@@ -1,5 +1,4 @@
 ﻿using iText.IO.Image;
-using iText.Kernel.Geom;
 using iText.Kernel.Pdf;
 using iText.Layout;
 using iText.Layout.Element;
@@ -13,7 +12,7 @@ namespace ModbusTemperature.Utility
 {
     public static class PDFUtility
     {
-        public static void ImageToPdf(string  sourceImgPath,string saveFileName)
+        public static void ImageToPdf(string sourceImgPath, string saveFileName)
         {
             using (MemoryStream ms = new MemoryStream())
             {
@@ -26,10 +25,10 @@ namespace ModbusTemperature.Utility
                 doc.Add(img);
                 doc.Close();
                 byte[] pdfRes = ms.ToArray();
-                File.WriteAllBytes(savePdfPath, pdfRes );
+                File.WriteAllBytes(savePdfPath, pdfRes);
             }
         }
-        public static void MasterModelToPDF(string[] sourceImgPaths,string saveFileName)
+        public static void MasterModelToPDF(string[] sourceImgPaths, string saveFileName)
         {
             using (MemoryStream ms = new MemoryStream())
             {
