@@ -34,7 +34,7 @@ namespace ModbusTemperature.Utility
             string[] fileNames = saveFileName.Split("/");
             while (File.Exists(saveFileName))
             {
-                saveFileName = fileNames[fileNames.Length-1] + "-" + _i + ".pdf";
+                saveFileName = fileNames[fileNames.Length - 1].Split(".")[0] + "-" + _i + ".pdf";
                 _i = _i + 1;
             }
             using (MemoryStream ms = new MemoryStream())
