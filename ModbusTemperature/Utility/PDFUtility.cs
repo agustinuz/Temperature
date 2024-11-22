@@ -31,7 +31,7 @@ namespace ModbusTemperature.Utility
         public static void MasterModelToPDF(string[] sourceImgPaths, string saveFileName)
         {
             int _i = 2;
-            string[] fileNames = saveFileName.Split("/");
+            string[] fileNames = saveFileName.Split("\\");
             while (File.Exists(saveFileName))
             {
                 saveFileName = fileNames[fileNames.Length - 1].Split(".")[0] + "-" + _i + ".pdf";

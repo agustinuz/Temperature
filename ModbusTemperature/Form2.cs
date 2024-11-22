@@ -41,6 +41,22 @@ namespace ModbusTemperature
             chart1.Titles[0].Text = "Temperature Data, Serial Number: " + (master.SerialNumber + " "  + master.RecordedAt.ToString("yyyy")) ;
             chart1.Invalidate();
         }
+
+        List<ModelDetail[]> ReformChartSerialNumberTitlePerMinute(ModelMaster master)
+        {
+            chart1.Titles[0].Text = "Temperature Data, Serial Number: " + (master.SerialNumber + " " + master.RecordedAt.ToString("yyyy"));
+            var details = ModelDetail.GetModelDetailsBySerialNumber(master.SerialNumber);
+            List<ModelDetail[]> listDetails = new List<ModelDetail[]>();
+            while (details.Count > 0)
+            {
+                var dt = details.Take(60).ToArray();
+                details.RemoveRange(0, dt.Length);
+                listDetails.Add(
+                    dt
+                );
+            }
+            return listDetails;
+        }
         public Form2(ModelMaster[] _masterModels, string _badgeId,bool startRunning)
         {
             temperatureTimer = new System.Windows.Forms.Timer();
@@ -249,20 +265,33 @@ namespace ModbusTemperature
             {
                 temperatureTimer.Stop();
                 isReading = false;
-                MessageBox.Show("Temperature reading has been automatically stopped after 1 minute.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                string[] sourceImages = new string[masterModels.Length];
-                for (int i = 0; i < masterModels.Length; i++)
+
+
+                var dt = ReformChartSerialNumberTitlePerMinute(masterModels[0]);
+                setChartSerialNumberTitle(masterModels[0]);
+                string[] sourceImages = new string[dt.Count];
+                for (int i = 0; i < dt.Count; i++)
                 {
-                    setChartSerialNumberTitle(masterModels[i]);
-                    string imgPath = sourceImages[i] = Path.Combine(AppContext.BaseDirectory, $"{masterModels[i].SerialNumber}.jpg");
-                    
+                    string imgPath = sourceImages[i] = Path.Combine(AppContext.BaseDirectory, $"{masterModels[0].SerialNumber}-{i}.jpg");
+                    chart1.Series[0].Points.Clear();
+                    for (int j = 0; j < dt[i].Length; j++)
+                    {
+                        DataPoint point = new DataPoint();
+                        chart1.Series[0].Points.AddXY(dt[i][j].RecordedAt, dt[i][j].TemperatureData);
+                        if ((dt[i].Length < 60) || (dt[i].Length >= 60 && dt[i][j].RecordedAt.Second == 0) || (dt[i].Length >= 3600 && dt[i][j].RecordedAt.Minute == 0 && dt[i][j].RecordedAt.Second == 0))
+                            chart1.Series[0].Points.Last().Label = dt[i][j].TemperatureData + " *C - " + dt[i][j].RecordedAt.ToString("HH:mm:ss");
+                    }
                     if (File.Exists(imgPath))
                         File.Delete(imgPath);
-                    chart1.SaveImage(Path.Combine(AppContext.BaseDirectory, $"{masterModels[i].SerialNumber}.jpg"), ChartImageFormat.Jpeg);
+
+                    chart1.SaveImage(Path.Combine(AppContext.BaseDirectory, $"{masterModels[0].SerialNumber}-{i}.jpg"), ChartImageFormat.Jpeg);
+
                 }
                 PDFUtility.MasterModelToPDF(sourceImages, Path.Combine(AppContext.BaseDirectory, $"{masterModels[0].badgeId}_{masterModels[0].RecordedAt.ToString("yyyy-MM-dd")}.pdf"));
-//                PDFUtility.ImageToPdf(Path.Combine(AppContext.BaseDirectory, "chart1.jpg"), "C:\\Users\\DELL\\Music\\CymberReport\\pdf1.pdf");
-//                this.Close();
+                for (int i = 0; i < sourceImages.Length; i++)
+                    File.Delete(sourceImages[i]);
+                //                PDFUtility.ImageToPdf(Path.Combine(AppContext.BaseDirectory, "chart1.jpg"), "C:\\Users\\DELL\\Music\\CymberReport\\pdf1.pdf");
+                //                this.Close();
             }
         }
 
