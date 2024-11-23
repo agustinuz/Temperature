@@ -25,6 +25,7 @@ namespace ModbusTemperature
         string badgeId = string.Empty;
         bool isReading = false;
         bool _startRunning = false;
+
         private DateTime startTime;
         private DateTime endTime;
         private Label[] getSerialLables() => [
