@@ -77,6 +77,10 @@ namespace ModbusTemperature
                 for (int i = 0; i < listDetails.Count; i++)
                     listDetails[i] = GroupAverageDataByNumber(listDetails[i].ToList(), 60).Select(x => x).ToArray();
             }
+            else
+            {
+                listDetails.Add(details.ToArray());
+            }
             return listDetails;
         }
         void loadChartByMasterModel(ModelMaster _masterModel)
