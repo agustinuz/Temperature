@@ -25,6 +25,7 @@ namespace ModbusTemperature
         string badgeId = string.Empty;
         bool isReading = false;
         bool _startRunning = false;
+        int interval = 1000;
 
         private DateTime startTime;
         private DateTime endTime;
@@ -101,8 +102,9 @@ namespace ModbusTemperature
                     chart1.Series[0].Points.Last().Label = details[i].TemperatureData.ToString("0.00") + " *C - " + details[i].RecordedAt.ToString("HH:mm:ss");
             }
         }
-        public Form2(ModelMaster[] _masterModels, string _badgeId, bool startRunning)
+        public Form2(ModelMaster[] _masterModels, string _badgeId,int _interval, bool startRunning)
         {
+            interval = _interval;
             _startRunning  = startRunning;
             temperatureTimer = new System.Windows.Forms.Timer();
             badgeId = _badgeId;
@@ -120,7 +122,7 @@ namespace ModbusTemperature
                 loadChartByMasterModel(masterModels[0]);
                 return;
             }
-            temperatureTimer.Interval = 1000;
+            temperatureTimer.Interval = interval;
             temperatureTimer.Tick += TemperatureTimer_Tick;
             startTime = DateTime.Now;
             endTime = startTime.AddMinutes(2);

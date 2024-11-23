@@ -11,18 +11,19 @@ namespace ModbusTemperature
 {
     public partial class Form1 : Form
     {
-        private System.Windows.Forms.Timer temperatureTimer;
+//        private System.Windows.Forms.Timer temperatureTimer;
         private bool isReading = false;
         private DateTime startTime;
         private List<ModelMaster> masterModels = new();
         private string badgeId = string.Empty;
+        private int interval = 1000;
         private ModbusFactory factory = new ModbusFactory();
         public Form1()
         {
             InitializeComponent();
-            temperatureTimer = new System.Windows.Forms.Timer();
+  //          temperatureTimer = new System.Windows.Forms.Timer();
             //temperatureTimer.Interval = 1000;
-            temperatureTimer.Tick += TemperatureTimer_Tick;
+    //        temperatureTimer.Tick += TemperatureTimer_Tick;
 
             comboBox1.Items.AddRange(new object[]
         {
@@ -52,7 +53,7 @@ namespace ModbusTemperature
         private void Form1_Load(object sender, EventArgs e)
         {
             LoadLastTemperatureDataByScanCode();
-            temperatureTimer.Interval = 1000;
+          //  temperatureTimer.Interval = 1000;
             //comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             comboBox1.SelectedIndex = -1;
             
@@ -78,7 +79,7 @@ namespace ModbusTemperature
             //    chart1.Series[0].Points.Last().Label = details[i].TemperatureData + " *C - " + details[i].RecordedAt.ToString("HH:mm:ss");
             //}
         }
-        private void TemperatureTimer_Tick(object? sender, EventArgs e)
+        /*private void TemperatureTimer_Tick(object? sender, EventArgs e)
         {
             //            ReadTemperature();
             string[] pathNames = new string[masterModels.Count];
@@ -94,7 +95,7 @@ namespace ModbusTemperature
                 //chart1.SaveImage(Path.Combine(AppContext.BaseDirectory, "chart1.jpg"), ChartImageFormat.Jpeg);
                 //PDFUtility.ImageToPdf(Path.Combine(AppContext.BaseDirectory, "chart1.jpg"), "pdf1.pdf");
             }
-        }
+        }*/
 
 
 
@@ -127,7 +128,7 @@ namespace ModbusTemperature
                     masterModels.Add(masterModel);
                 }
             }
-            Form2 frm = new Form2(masterModels.ToArray(), badgeId, true);
+            Form2 frm = new Form2(masterModels.ToArray(), badgeId,1000, true);
             frm.Show();
             masterModels.Clear();
             badgeId = "";
@@ -189,7 +190,7 @@ namespace ModbusTemperature
                 MessageBox.Show("No Data Found");
                 return;
             }
-            Form2 frm = new Form2([lastMasterData], lastMasterData?.badgeId ?? "", false);
+            Form2 frm = new Form2([lastMasterData], lastMasterData?.badgeId ?? "",interval, false);
             frm.Show();
         }
 
@@ -198,22 +199,22 @@ namespace ModbusTemperature
             switch (comboBox1.SelectedItem?.ToString())
             {
                 case "1 Minute":
-                    temperatureTimer.Interval = 1 * 60 * 1000;
+                    interval = 1 * 60 * 1000;
                     break;
                 case "5 Minutes":
-                    temperatureTimer.Interval = 5 * 60 * 1000;
+                    interval = 5 * 60 * 1000;
                     break;
                 case "30 Minutes":
-                    temperatureTimer.Interval = 30 * 60 * 1000;
+                    interval = 30 * 60 * 1000;
                     break;
                 case "1 Hour":
-                    temperatureTimer.Interval = 60 * 60 * 1000;
+                    interval = 60 * 60 * 1000;
                     break;
                 case "2 Hours":
-                    temperatureTimer.Interval = 2 * 60 * 60 * 1000;
+                    interval = 2 * 60 * 60 * 1000;
                     break;
                 default:
-                    temperatureTimer.Interval = 1000;
+                    interval = 1000;
                     break;
             }
             MessageBox.Show(
