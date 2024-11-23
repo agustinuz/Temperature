@@ -32,6 +32,8 @@
             toolTip1 = new ToolTip(components);
             backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             panel3 = new Panel();
+            label1 = new Label();
+            comboBox1 = new ComboBox();
             textBox10 = new TextBox();
             textBox9 = new TextBox();
             textBox8 = new TextBox();
@@ -53,6 +55,8 @@
             panel3.BackColor = Color.Cyan;
             panel3.BackgroundImageLayout = ImageLayout.None;
             panel3.BorderStyle = BorderStyle.Fixed3D;
+            panel3.Controls.Add(label1);
+            panel3.Controls.Add(comboBox1);
             panel3.Controls.Add(textBox10);
             panel3.Controls.Add(textBox9);
             panel3.Controls.Add(textBox8);
@@ -71,10 +75,30 @@
             panel3.Name = "panel3";
             panel3.Size = new Size(422, 619);
             panel3.TabIndex = 11;
+            panel3.Paint += panel3_Paint;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Lucida Sans", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Location = new Point(50, 447);
+            label1.Name = "label1";
+            label1.Size = new Size(101, 18);
+            label1.TabIndex = 13;
+            label1.Text = "Temp Timer";
+            // 
+            // comboBox1
+            // 
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Location = new Point(157, 442);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(197, 23);
+            comboBox1.TabIndex = 12;
+            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // textBox10
             // 
-            textBox10.Location = new Point(66, 389);
+            textBox10.Location = new Point(66, 383);
             textBox10.Multiline = true;
             textBox10.Name = "textBox10";
             textBox10.Size = new Size(288, 29);
@@ -84,7 +108,7 @@
             // 
             // textBox9
             // 
-            textBox9.Location = new Point(66, 354);
+            textBox9.Location = new Point(66, 348);
             textBox9.Multiline = true;
             textBox9.Name = "textBox9";
             textBox9.Size = new Size(288, 29);
@@ -94,7 +118,7 @@
             // 
             // textBox8
             // 
-            textBox8.Location = new Point(66, 319);
+            textBox8.Location = new Point(66, 313);
             textBox8.Multiline = true;
             textBox8.Name = "textBox8";
             textBox8.Size = new Size(288, 29);
@@ -104,7 +128,7 @@
             // 
             // textBox7
             // 
-            textBox7.Location = new Point(66, 283);
+            textBox7.Location = new Point(66, 278);
             textBox7.Multiline = true;
             textBox7.Name = "textBox7";
             textBox7.Size = new Size(288, 29);
@@ -114,7 +138,7 @@
             // 
             // textBox6
             // 
-            textBox6.Location = new Point(66, 248);
+            textBox6.Location = new Point(66, 243);
             textBox6.Multiline = true;
             textBox6.Name = "textBox6";
             textBox6.Size = new Size(288, 29);
@@ -124,7 +148,7 @@
             // 
             // textBox4
             // 
-            textBox4.Location = new Point(66, 214);
+            textBox4.Location = new Point(66, 208);
             textBox4.Multiline = true;
             textBox4.Name = "textBox4";
             textBox4.Size = new Size(288, 29);
@@ -134,7 +158,7 @@
             // 
             // textBox11
             // 
-            textBox11.Location = new Point(66, 179);
+            textBox11.Location = new Point(66, 173);
             textBox11.Multiline = true;
             textBox11.Name = "textBox11";
             textBox11.Size = new Size(288, 29);
@@ -144,7 +168,7 @@
             // 
             // textBox12
             // 
-            textBox12.Location = new Point(66, 144);
+            textBox12.Location = new Point(66, 138);
             textBox12.Multiline = true;
             textBox12.Name = "textBox12";
             textBox12.Size = new Size(288, 29);
@@ -156,7 +180,7 @@
             // 
             button2.FlatAppearance.BorderSize = 0;
             button2.FlatAppearance.MouseDownBackColor = Color.Silver;
-            button2.Location = new Point(237, 444);
+            button2.Location = new Point(237, 505);
             button2.Name = "button2";
             button2.Size = new Size(117, 53);
             button2.TabIndex = 11;
@@ -168,7 +192,7 @@
             // 
             button3.FlatAppearance.BorderSize = 0;
             button3.FlatAppearance.MouseDownBackColor = Color.Silver;
-            button3.Location = new Point(66, 444);
+            button3.Location = new Point(66, 505);
             button3.Name = "button3";
             button3.Size = new Size(117, 53);
             button3.TabIndex = 10;
@@ -180,7 +204,7 @@
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Lucida Sans", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(96, 41);
+            label6.Location = new Point(104, 55);
             label6.Name = "label6";
             label6.Size = new Size(67, 18);
             label6.TabIndex = 4;
@@ -190,7 +214,7 @@
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Lucida Sans", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label7.Location = new Point(155, 99);
+            label7.Location = new Point(166, 105);
             label7.Name = "label7";
             label7.Size = new Size(85, 18);
             label7.TabIndex = 3;
@@ -198,10 +222,10 @@
             // 
             // textBox13
             // 
-            textBox13.Location = new Point(198, 33);
+            textBox13.Location = new Point(198, 46);
             textBox13.Multiline = true;
             textBox13.Name = "textBox13";
-            textBox13.Size = new Size(156, 38);
+            textBox13.Size = new Size(156, 27);
             textBox13.TabIndex = 1;
             textBox13.KeyDown += textBox13_KeyDown;
             // 
@@ -237,5 +261,7 @@
         private Label label7;
         private TextBox textBox12;
         private TextBox textBox13;
+        private ComboBox comboBox1;
+        private Label label1;
     }
 }

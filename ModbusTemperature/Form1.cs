@@ -21,8 +21,19 @@ namespace ModbusTemperature
         {
             InitializeComponent();
             temperatureTimer = new System.Windows.Forms.Timer();
-            temperatureTimer.Interval = 1000;
+            //temperatureTimer.Interval = 1000;
             temperatureTimer.Tick += TemperatureTimer_Tick;
+
+            comboBox1.Items.AddRange(new object[]
+        {
+            "1 Minute",
+            "5 Minutes",
+            "30 Minutes",
+            "1 Hour",
+            "2 Hours"
+        });
+            
+            
 
         }
         private string[] GetSerialNumbersFromTextboxes()
@@ -41,6 +52,10 @@ namespace ModbusTemperature
         private void Form1_Load(object sender, EventArgs e)
         {
             LoadLastTemperatureDataByScanCode();
+            temperatureTimer.Interval = 1000;
+            //comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            comboBox1.SelectedIndex = -1;
+            
         }
         void LoadLastTemperatureDataByScanCode()
         {
@@ -112,7 +127,7 @@ namespace ModbusTemperature
                     masterModels.Add(masterModel);
                 }
             }
-            Form2 frm = new Form2(masterModels.ToArray(), badgeId,true);
+            Form2 frm = new Form2(masterModels.ToArray(), badgeId, true);
             frm.Show();
             masterModels.Clear();
             badgeId = "";
@@ -174,9 +189,44 @@ namespace ModbusTemperature
                 MessageBox.Show("No Data Found");
                 return;
             }
-            Form2 frm = new Form2([lastMasterData], lastMasterData?.badgeId ?? "",false);
+            Form2 frm = new Form2([lastMasterData], lastMasterData?.badgeId ?? "", false);
             frm.Show();
-            
+        }
+
+        private void comboBox1_SelectedIndexChanged(object? sender, EventArgs e)
+        {
+            switch (comboBox1.SelectedItem?.ToString())
+            {
+                case "1 Minute":
+                    temperatureTimer.Interval = 1 * 60 * 1000;
+                    break;
+                case "5 Minutes":
+                    temperatureTimer.Interval = 5 * 60 * 1000;
+                    break;
+                case "30 Minutes":
+                    temperatureTimer.Interval = 30 * 60 * 1000;
+                    break;
+                case "1 Hour":
+                    temperatureTimer.Interval = 60 * 60 * 1000;
+                    break;
+                case "2 Hours":
+                    temperatureTimer.Interval = 2 * 60 * 60 * 1000;
+                    break;
+                default:
+                    temperatureTimer.Interval = 1000;
+                    break;
+            }
+            MessageBox.Show(
+                            $"Timer interval set to {comboBox1.SelectedItem}",
+                            "Timer Updated",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information
+                        );
+        }
+
+        private void panel3_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 
