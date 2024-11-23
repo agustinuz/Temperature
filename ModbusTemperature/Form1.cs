@@ -128,7 +128,7 @@ namespace ModbusTemperature
                     masterModels.Add(masterModel);
                 }
             }
-            Form2 frm = new Form2(masterModels.ToArray(), badgeId,1000, true);
+            Form2 frm = new Form2(masterModels.ToArray(), badgeId,interval, true);
             frm.Show();
             masterModels.Clear();
             badgeId = "";
@@ -196,6 +196,7 @@ namespace ModbusTemperature
 
         private void comboBox1_SelectedIndexChanged(object? sender, EventArgs e)
         {
+            
             switch (comboBox1.SelectedItem?.ToString())
             {
                 case "1 Minute":
