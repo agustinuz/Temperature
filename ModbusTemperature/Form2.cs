@@ -272,7 +272,7 @@ namespace ModbusTemperature
             {
                 details = details.TakeLast(10).ToList();
             }
-            else if (!_startRunning)
+            else if (!_startRunning && !isReading)
             {
                 if (details.Count >= 3600)
                     details = GroupAverageDataByNumber(details, 600);
