@@ -24,6 +24,7 @@ namespace ModbusTemperature
         private ModbusFactory factory = new ModbusFactory();
         string badgeId = string.Empty;
         bool isReading = false;
+        bool _startRunning = false;
         private DateTime startTime;
         private DateTime endTime;
         private Label[] getSerialLables() => [
@@ -38,27 +39,70 @@ namespace ModbusTemperature
         ];
         void setChartSerialNumberTitle(ModelMaster master)
         {
-            chart1.Titles[0].Text = "Temperature Data, Serial Number: " + (master.SerialNumber + " "  + master.RecordedAt.ToString("yyyy")) ;
+            chart1.Titles[0].Text = "Temperature Data, Serial Number: " + (master.SerialNumber + " " + master.RecordedAt.ToString("yyyy"));
             chart1.Invalidate();
         }
-
-        List<ModelDetail[]> ReformChartSerialNumberTitlePerMinute(ModelMaster master)
+        List<ModelDetail[]> TakeDataDetails(List<ModelDetail> details,int num)
+        {
+            List<ModelDetail[]> list = new List<ModelDetail[]>();
+            while (details.Count> 0)
+            {
+                var dt = details.Take(num).ToArray();
+                details.RemoveRange(0, dt.Length);
+                list.Add(dt);
+            }
+            return list;
+        }
+        List<ModelDetail[]> ReformChartSerialNumberTitlePerHour(ModelMaster master)
         {
             chart1.Titles[0].Text = "Temperature Data, Serial Number: " + (master.SerialNumber + " " + master.RecordedAt.ToString("yyyy"));
             var details = ModelDetail.GetModelDetailsBySerialNumber(master.SerialNumber);
+
             List<ModelDetail[]> listDetails = new List<ModelDetail[]>();
-            while (details.Count > 0)
+            if (details.Count >= 3600)
             {
-                var dt = details.Take(60).ToArray();
-                details.RemoveRange(0, dt.Length);
-                listDetails.Add(
-                    dt
-                );
+                chart1.ChartAreas[0].AxisX.IntervalType = DateTimeIntervalType.Minutes;
+                chart1.ChartAreas[0].AxisX.Interval = 10;
+                listDetails = TakeDataDetails(details, 3600);
+                for (int i = 0; i < listDetails.Count; i++)
+                    listDetails[i] = GroupAverageDataByNumber(listDetails[i].ToList(), 600).ToArray();
+            }
+            else if (details.Count >= 60)
+            {
+                chart1.ChartAreas[0].AxisX.IntervalType = DateTimeIntervalType.Minutes;
+                chart1.ChartAreas[0].AxisX.Interval = 1;
+                listDetails = TakeDataDetails(details, 60);
+                for (int i = 0; i < listDetails.Count; i++)
+                    listDetails[i] = GroupAverageDataByNumber(listDetails[i].ToList(), 60).Select(x => x).ToArray();
             }
             return listDetails;
         }
-        public Form2(ModelMaster[] _masterModels, string _badgeId,bool startRunning)
+        void loadChartByMasterModel(ModelMaster _masterModel)
         {
+            var details = ModelDetail.GetModelDetailsBySerialNumber(_masterModel.SerialNumber);
+            startTime = details.First().RecordedAt;
+            endTime = details.Last().RecordedAt;
+            label10.Text = $"date :  {startTime.ToString("yyyy MMM dd")}";
+            label11.Text = $"Start Running : {startTime.ToString("HH:mm:ss")}";
+            label12.Text = $"Estimation Stop  : {endTime.ToString("HH:mm:ss")}";
+            setupChart(details, masterModels[0]);
+
+            if (details.Count >= 3600)
+                details = GroupAverageDataByNumber(details, 600);
+            else if (details.Count >= 60)
+                details = GroupAverageDataByNumber(details, 60);
+            chart1.Series[0].Points.Clear();
+            for (int i = 0; i < details.Count; i++)
+            {
+                DataPoint point = new DataPoint();
+                chart1.Series[0].Points.AddXY(details[i].RecordedAt, details[i].TemperatureData);
+                if ((details.Count < 60) || (details.Count >= 60 && details.Count < 3600 && details[i].RecordedAt.Second == 0) || (details.Count >= 3600 && details[i].RecordedAt.Minute == 0 && details[i].RecordedAt.Second == 0))
+                    chart1.Series[0].Points.Last().Label = details[i].TemperatureData.ToString("0.00") + " *C - " + details[i].RecordedAt.ToString("HH:mm:ss");
+            }
+        }
+        public Form2(ModelMaster[] _masterModels, string _badgeId, bool startRunning)
+        {
+            _startRunning  = startRunning;
             temperatureTimer = new System.Windows.Forms.Timer();
             badgeId = _badgeId;
             masterModels = _masterModels;
@@ -72,48 +116,7 @@ namespace ModbusTemperature
             }
             if (!startRunning)
             {
-                var details = ModelDetail.GetModelDetailsBySerialNumber(_masterModels[0].SerialNumber);
-                startTime = details.First().RecordedAt;
-                endTime = details.Last().RecordedAt;
-                label10.Text = $"date :  {startTime.ToString("yyyy MMM dd")}";
-                label11.Text = $"Start Running : {startTime.ToString("HH:mm:ss")}";
-                label12.Text = $"Estimation Stop  : {endTime.ToString("HH:mm:ss")}";
-                chart1.Series[0].IsXValueIndexed = true;
-                chart1.Series[0].XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
-                chart1.ChartAreas[0].AxisY.LabelStyle.Format = "{0} °C";
-                chart1.ChartAreas[0].AxisX.LabelStyle.Format = "HH:mm:sss";
-                chart1.Series[0].YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
-                chart1.Titles[0].Text = "Temperature Data, Serial Number: " + (details.Any() ? details.First().SerialNumber + " " + details.First().RecordedAt.ToString("yyyy") : "None");
-                if (details.Count >= 3600)
-                {
-                    chart1.ChartAreas[0].AxisX.IntervalType = DateTimeIntervalType.Hours;
-                    chart1.ChartAreas[0].AxisX.Interval = 1;
-//                    chart1.ChartAreas[0].AxisX.Minimum = startTime.ToOADate();
-  //                  chart1.ChartAreas[0].AxisX.Maximum = endTime.ToOADate();
-                }
-                else if (details.Count >= 60)
-                {
-                    chart1.ChartAreas[0].AxisX.IntervalType = DateTimeIntervalType.Minutes;
-                    chart1.ChartAreas[0].AxisX.Interval = 1;
-    //                chart1.ChartAreas[0].AxisX.Minimum = startTime.ToOADate();
-      //              chart1.ChartAreas[0].AxisX.Maximum =endTime.ToOADate();
-                }
-                else
-                {
-                    chart1.ChartAreas[0].AxisX.IntervalType = DateTimeIntervalType.Seconds;
-                    chart1.ChartAreas[0].AxisX.Interval = 1;
-        //            chart1.ChartAreas[0].AxisX.Minimum = startTime.ToOADate();
-          //          chart1.ChartAreas[0].AxisX.Maximum = startTime.AddMinutes(1).ToOADate();
-                }
-                chart1.Series[0].Points.Clear();
-                for (int i = 0; i < details.Count; i++)
-                {
-                    DataPoint point = new DataPoint();
-                    chart1.Series[0].Points.AddXY(details[i].RecordedAt, details[i].TemperatureData);
-                    if ((details.Count < 60) || (details.Count >= 60  && details[i].RecordedAt.Second == 0) || (details.Count >= 3600 && details[i].RecordedAt.Minute==0 && details[i].RecordedAt.Second==0 ))
-                        chart1.Series[0].Points.Last().Label = details[i].TemperatureData + " *C - " + details[i].RecordedAt.ToString("HH:mm:ss");
-
-                }
+                loadChartByMasterModel(masterModels[0]);
                 return;
             }
             temperatureTimer.Interval = 1000;
@@ -185,8 +188,8 @@ namespace ModbusTemperature
                     detail.SaveDataDetail();
                 }
                 var details = ModelDetail.GetModelDetailsBySerialNumber(masterModels.First().SerialNumber);
-//                details = details.TakeLast(10).ToList();
-                LoadDataDetailToChart(details);
+                //                details = details.TakeLast(10).ToList();
+                LoadDataDetailToChart(details,masterModels.First());
                 //textBox3.Text = $"{temperature} °C";
 
 
@@ -212,46 +215,77 @@ namespace ModbusTemperature
             // Contoh konversi, disesuaikan dengan format data perangkat
             return registerValue * 0.1; // Misalnya skala nilai register dengan faktor 0.1 menjadi °C
         }
-        private void LoadDataDetailToChart(List<ModelDetail> details)
+        void setupChart(List<ModelDetail> details,ModelMaster master)
         {
+
             chart1.Series[0].XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
-            chart1.ChartAreas[0].AxisY.LabelStyle.Format = "{0} °C";
-                chart1.ChartAreas[0].AxisX.LabelStyle.Format = "HH:mm:sss";
+            chart1.ChartAreas[0].AxisY.LabelStyle.Format = "{0.00} °C";
+            chart1.ChartAreas[0].AxisX.LabelStyle.Format = "HH:mm:sss";
             chart1.Series[0].YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
-            chart1.Titles[0].Text = "Temperature Data, Serial Number: " + (details.Any() ? details.First().SerialNumber + " " + details.First().RecordedAt.ToString("yyyy") : "None");
+            chart1.Titles[0].Text = "Temperature Data, Serial Number: " + (master.SerialNumber + " " + master.RecordedAt.ToString("yyyy"));
             if (details.Count >= 3600)
             {
                 chart1.ChartAreas[0].AxisX.IntervalType = DateTimeIntervalType.Hours;
                 chart1.ChartAreas[0].AxisX.Interval = 1;
- //               chart1.ChartAreas[0].AxisX.Minimum = startTime.ToOADate();
- //               chart1.ChartAreas[0].AxisX.Maximum = startTime.AddHours(8).ToOADate();
+                //               chart1.ChartAreas[0].AxisX.Minimum = startTime.ToOADate();
+                //               chart1.ChartAreas[0].AxisX.Maximum = startTime.AddHours(8).ToOADate();
             }
             else if (details.Count >= 60)
             {
                 chart1.ChartAreas[0].AxisX.IntervalType = DateTimeIntervalType.Minutes;
                 chart1.ChartAreas[0].AxisX.Interval = 1;
-//                chart1.ChartAreas[0].AxisX.Minimum = startTime.ToOADate();
-//                chart1.ChartAreas[0].AxisX.Maximum = startTime.AddMinutes(60).ToOADate();
+                //                chart1.ChartAreas[0].AxisX.Minimum = startTime.ToOADate();
+                //                chart1.ChartAreas[0].AxisX.Maximum = startTime.AddMinutes(60).ToOADate();
             }
             else
             {
                 chart1.ChartAreas[0].AxisX.IntervalType = DateTimeIntervalType.Seconds;
                 chart1.ChartAreas[0].AxisX.Interval = 1;
-//                chart1.ChartAreas[0].AxisX.Minimum = startTime.ToOADate();
- //               chart1.ChartAreas[0].AxisX.Maximum = startTime.AddMinutes(1).ToOADate();
+                //                chart1.ChartAreas[0].AxisX.Minimum = startTime.ToOADate();
+                //               chart1.ChartAreas[0].AxisX.Maximum = startTime.AddMinutes(1).ToOADate();
             }
+        }
+        List<ModelDetail> GroupAverageDataByNumber(List<ModelDetail> details,int num)
+        {
+            List<ModelDetail> listDetails = new List<ModelDetail>();
+            while (details.Count > 0)
+            {
+                var dt = details.Take(num).ToArray();
+                details.RemoveRange(0, dt.Length);
+                listDetails.Add(
+                    new
+                    ModelDetail()
+                    {
+                        RecordedAt= dt.First().RecordedAt,
+                        SerialNumber =dt.First().SerialNumber,
+                        TemperatureData = dt.Select(x=>x.TemperatureData).Average()
+                    }
+                );
+            }
+            return listDetails;
+        }
+        private void LoadDataDetailToChart(List<ModelDetail> dataDetails,ModelMaster master)
+        {
+            var details = dataDetails;
+            setupChart(details,master);
             if (details.Count < 60)
             {
                 details = details.TakeLast(10).ToList();
             }
-
+            else if (!_startRunning)
+            {
+                if (details.Count >= 3600)
+                    details = GroupAverageDataByNumber(details, 600);
+                else
+                    details = GroupAverageDataByNumber(details, 60);
+            }
             chart1.Series[0].Points.Clear();
             for (int i = 0; i < details.Count; i++)
             {
                 DataPoint point = new DataPoint();
                 chart1.Series[0].Points.AddXY(details[i].RecordedAt, details[i].TemperatureData);
-                if ((details.Count < 60) || (details.Count >= 60 && details[i].RecordedAt.Second == 0) || (details.Count >= 3600 && details[i].RecordedAt.Minute == 0 && details[i].RecordedAt.Second == 0))
-                    chart1.Series[0].Points.Last().Label = details[i].TemperatureData + " *C - " + details[i].RecordedAt.ToString("HH:mm:ss");
+                if ((details.Count < 60) || (details.Count >= 60 && details.Count < 3600 && details[i].RecordedAt.Second == 0) || (details.Count >= 3600 && details[i].RecordedAt.Minute == 0 && details[i].RecordedAt.Second == 0))
+                    chart1.Series[0].Points.Last().Label = details[i].TemperatureData.ToString("0.00") + " *C - " + details[i].RecordedAt.ToString("HH:mm:ss");
 
             }
         }
@@ -267,7 +301,7 @@ namespace ModbusTemperature
                 isReading = false;
 
 
-                var dt = ReformChartSerialNumberTitlePerMinute(masterModels[0]);
+                var dt = ReformChartSerialNumberTitlePerHour(masterModels[0]);
                 setChartSerialNumberTitle(masterModels[0]);
                 string[] sourceImages = new string[dt.Count];
                 for (int i = 0; i < dt.Count; i++)
@@ -297,6 +331,35 @@ namespace ModbusTemperature
 
         private void chart1_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var dt = ReformChartSerialNumberTitlePerHour(masterModels[0]);
+            setChartSerialNumberTitle(masterModels[0]);
+            string[] sourceImages = new string[dt.Count];
+            for (int i = 0; i < dt.Count; i++)
+            {
+                string imgPath = sourceImages[i] = Path.Combine(AppContext.BaseDirectory, $"{masterModels[0].SerialNumber}-{i}.jpg");
+                chart1.Series[0].Points.Clear();
+                for (int j = 0; j < dt[i].Length; j++)
+                {
+                    DataPoint point = new DataPoint();
+                    chart1.Series[0].Points.AddXY(dt[i][j].RecordedAt, dt[i][j].TemperatureData);
+                    if ((dt[i].Length < 60) || (dt[i].Length >= 60 && dt[i][j].RecordedAt.Second == 0) || (dt[i].Length >= 3600 && dt[i][j].RecordedAt.Minute == 0 && dt[i][j].RecordedAt.Second == 0))
+                        chart1.Series[0].Points.Last().Label = dt[i][j].TemperatureData.ToString("0.00") + " *C - " + dt[i][j].RecordedAt.ToString("HH:mm:ss");
+                }
+                if (File.Exists(imgPath))
+                    File.Delete(imgPath);
+
+                chart1.SaveImage(Path.Combine(AppContext.BaseDirectory, $"{masterModels[0].SerialNumber}-{i}.jpg"), ChartImageFormat.Jpeg);
+
+            }
+            PDFUtility.MasterModelToPDF(sourceImages, Path.Combine(AppContext.BaseDirectory, $"{masterModels[0].badgeId}_{masterModels[0].RecordedAt.ToString("yyyy-MM-dd")}.pdf"));
+            for (int i = 0; i < sourceImages.Length; i++)
+                File.Delete(sourceImages[i]);
+            loadChartByMasterModel(masterModels[0]);
 
         }
     }

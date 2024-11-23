@@ -152,6 +152,7 @@
             button1.TabIndex = 10;
             button1.Text = "SAVE";
             button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // panel5
             // 
