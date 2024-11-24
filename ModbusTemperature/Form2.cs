@@ -44,10 +44,10 @@ namespace ModbusTemperature
             chart1.Titles[0].Text = "Temperature Data, Serial Number: " + (master.SerialNumber + " " + master.RecordedAt.ToString("yyyy"));
             chart1.Invalidate();
         }
-        List<ModelDetail[]> TakeDataDetails(List<ModelDetail> details,int num)
+        List<ModelDetail[]> TakeDataDetails(List<ModelDetail> details, int num)
         {
             List<ModelDetail[]> list = new List<ModelDetail[]>();
-            while (details.Count> 0)
+            while (details.Count > 0)
             {
                 var dt = details.Take(num).ToArray();
                 details.RemoveRange(0, dt.Length);
@@ -106,10 +106,10 @@ namespace ModbusTemperature
                     chart1.Series[0].Points.Last().Label = details[i].TemperatureData.ToString("0.00") + " *C - " + details[i].RecordedAt.ToString("HH:mm:ss");
             }
         }
-        public Form2(ModelMaster[] _masterModels, string _badgeId,int _interval, bool startRunning)
+        public Form2(ModelMaster[] _masterModels, string _badgeId, int _interval, bool startRunning)
         {
             interval = _interval;
-            _startRunning  = startRunning;
+            _startRunning = startRunning;
             temperatureTimer = new System.Windows.Forms.Timer();
             badgeId = _badgeId;
             masterModels = _masterModels;
@@ -196,8 +196,8 @@ namespace ModbusTemperature
                 }
                 var details = ModelDetail.GetModelDetailsBySerialNumber(masterModels.First().SerialNumber);
                 //                details = details.TakeLast(10).ToList();
-                LoadDataDetailToChart(details,masterModels.First());
-                //textBox3.Text = $"{temperature} °C";
+                LoadDataDetailToChart(details, masterModels.First());
+                textBox1.Text = $"{temperature} °C";
 
 
                 // Load the latest temperature data for the first SerialNumber
@@ -222,7 +222,7 @@ namespace ModbusTemperature
             // Contoh konversi, disesuaikan dengan format data perangkat
             return registerValue * 0.1; // Misalnya skala nilai register dengan faktor 0.1 menjadi °C
         }
-        void setupChart(List<ModelDetail> details,ModelMaster master)
+        void setupChart(List<ModelDetail> details, ModelMaster master)
         {
 
             chart1.Series[0].XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
@@ -252,7 +252,7 @@ namespace ModbusTemperature
                 //               chart1.ChartAreas[0].AxisX.Maximum = startTime.AddMinutes(1).ToOADate();
             }
         }
-        List<ModelDetail> GroupAverageDataByNumber(List<ModelDetail> details,int num)
+        List<ModelDetail> GroupAverageDataByNumber(List<ModelDetail> details, int num)
         {
             List<ModelDetail> listDetails = new List<ModelDetail>();
             while (details.Count > 0)
@@ -263,18 +263,18 @@ namespace ModbusTemperature
                     new
                     ModelDetail()
                     {
-                        RecordedAt= dt.First().RecordedAt,
-                        SerialNumber =dt.First().SerialNumber,
-                        TemperatureData = dt.Select(x=>x.TemperatureData).Average()
+                        RecordedAt = dt.First().RecordedAt,
+                        SerialNumber = dt.First().SerialNumber,
+                        TemperatureData = dt.Select(x => x.TemperatureData).Average()
                     }
                 );
             }
             return listDetails;
         }
-        private void LoadDataDetailToChart(List<ModelDetail> dataDetails,ModelMaster master)
+        private void LoadDataDetailToChart(List<ModelDetail> dataDetails, ModelMaster master)
         {
             var details = dataDetails;
-            setupChart(details,master);
+            setupChart(details, master);
             if (details.Count < 60)
             {
                 details = details.TakeLast(10).ToList();
@@ -367,6 +367,11 @@ namespace ModbusTemperature
             for (int i = 0; i < sourceImages.Length; i++)
                 File.Delete(sourceImages[i]);
             loadChartByMasterModel(masterModels[0]);
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
 
         }
     }

@@ -36,6 +36,7 @@
             chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             panel1 = new Panel();
             panel3 = new Panel();
+            textBox1 = new TextBox();
             panel2 = new Panel();
             panel4 = new Panel();
             label3 = new Label();
@@ -105,11 +106,21 @@
             // 
             panel3.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panel3.BackColor = Color.WhiteSmoke;
+            panel3.Controls.Add(textBox1);
             panel3.Controls.Add(chart1);
             panel3.Location = new Point(243, 15);
             panel3.Name = "panel3";
             panel3.Size = new Size(964, 616);
             panel3.TabIndex = 12;
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(805, 114);
+            textBox1.Multiline = true;
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(100, 41);
+            textBox1.TabIndex = 11;
+            textBox1.TextChanged += textBox1_TextChanged;
             // 
             // panel2
             // 
@@ -310,11 +321,11 @@
             Controls.Add(panel1);
             Name = "Form2";
             Text = "Form2";
-            WindowState = FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)chart1).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             panel3.ResumeLayout(false);
+            panel3.PerformLayout();
             panel2.ResumeLayout(false);
             panel4.ResumeLayout(false);
             panel4.PerformLayout();
@@ -345,5 +356,6 @@
         private Label label12;
         private Label label11;
         private Label label10;
+        private TextBox textBox1;
     }
 }
