@@ -67,10 +67,10 @@ namespace ModbusTemperature
                     chart1.Series[0].Points.Last().Label = details[i].TemperatureData.ToString("0.00") + " *C - " + details[i].RecordedAt.ToString("HH:mm:ss");
             }
         }
-        public Form2(ModelMaster[] _masterModels, string _badgeId,int _interval, bool startRunning)
+        public Form2(ModelMaster[] _masterModels, string _badgeId, int _interval, bool startRunning)
         {
             interval = _interval;
-            _startRunning  = startRunning;
+            _startRunning = startRunning;
             temperatureTimer = new System.Windows.Forms.Timer();
             badgeId = _badgeId;
             masterModels = _masterModels;
@@ -157,8 +157,8 @@ namespace ModbusTemperature
                 }
                 var details = ModelDetail.GetModelDetailsBySerialNumber(masterModels.First().SerialNumber);
                 //                details = details.TakeLast(10).ToList();
-                LoadDataDetailToChart(details,masterModels.First());
-                //textBox3.Text = $"{temperature} °C";
+                LoadDataDetailToChart(details, masterModels.First());
+                textBox1.Text = $"{temperature} °C";
 
 
                 // Load the latest temperature data for the first SerialNumber
@@ -183,7 +183,7 @@ namespace ModbusTemperature
             // Contoh konversi, disesuaikan dengan format data perangkat
             return registerValue * 0.1; // Misalnya skala nilai register dengan faktor 0.1 menjadi °C
         }
-        void setupChart(List<ModelDetail> details,ModelMaster master)
+        void setupChart(List<ModelDetail> details, ModelMaster master)
         {
 
             chart1.Series[0].XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
@@ -265,6 +265,11 @@ namespace ModbusTemperature
             setChartSerialNumberTitle(masterModels[0]);
             SaveDataPDF(dt);
             loadChartByMasterModel(masterModels[0]);
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
 
         }
     }

@@ -155,7 +155,7 @@ namespace ModbusTemperature
                 {
                     // Tampilkan pesan peringatan jika Badge ID tidak ditemukan
                     MessageBox.Show(
-                        "Badge ID tidak ditemukan. Silakan periksa kembali.",
+                        "Badge ID Unregisterd",
                         "Peringatan",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Warning
