@@ -36,7 +36,7 @@ namespace ModbusTemperature.Model
         {
             using (var connection = ConfigDB.GetConnection())
             {
-                string query = @"SELECT SerialNumber,TemperatureData,RecordedAt FROM TemperatureDataDetail where SerialNumber=@SerialNumber";
+                string query = @"SELECT SerialNumber,TemperatureData,RecordedAt FROM TemperatureDataDetail where SerialNumber=@SerialNumber Order by RecordedAt Asc";
                 return connection.Query<ModelDetail>(query, new { SerialNumber = serialNumber }).ToList();
             }
         }
