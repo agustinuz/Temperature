@@ -90,7 +90,7 @@ namespace ModbusTemperature
             temperatureTimer.Interval = interval;
             temperatureTimer.Tick += TemperatureTimer_Tick;
             startTime = DateTime.Now;
-            endTime = startTime.AddMinutes(2);
+            endTime = startTime.AddMinutes(1);
             StartReadingTemperature();
             label10.Text = $"date :  {startTime.ToString("yyyy MMM dd")}";
             label11.Text = $"Start Running : {startTime.ToString("HH:mm:ss")}";
@@ -222,7 +222,12 @@ namespace ModbusTemperature
             {
                 temperatureTimer.Stop();
                 isReading = false;
-
+                MessageBox.Show(
+                        "Burn In Finish",
+                        "Peringatan",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning
+                    );
 
                 var dt = ModelDetail.GetModelDetailsBySerialNumber(masterModels[0].SerialNumber);
                 SaveDataPDF(dt);

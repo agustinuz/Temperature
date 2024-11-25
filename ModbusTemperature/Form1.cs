@@ -27,11 +27,11 @@ namespace ModbusTemperature
 
             comboBox1.Items.AddRange(new object[]
         {
+            "1 Second",
             "1 Minute",
             "5 Minutes",
             "30 Minutes",
-            "1 Hour",
-            "2 Hours"
+            "1 Hour"
         });
             
             
@@ -199,6 +199,9 @@ namespace ModbusTemperature
             
             switch (comboBox1.SelectedItem?.ToString())
             {
+                case "1 Second":
+                    interval = 1000;
+                    break;
                 case "1 Minute":
                     interval = 1 * 60 * 1000;
                     break;

@@ -54,6 +54,7 @@
             label12 = new Label();
             label11 = new Label();
             label10 = new Label();
+            label13 = new Label();
             ((System.ComponentModel.ISupportInitialize)chart1).BeginInit();
             panel1.SuspendLayout();
             panel3.SuspendLayout();
@@ -168,6 +169,7 @@
             // panel5
             // 
             panel5.BackColor = Color.PeachPuff;
+            panel5.Controls.Add(label13);
             panel5.Controls.Add(label9);
             panel5.Controls.Add(label8);
             panel5.Controls.Add(label7);
@@ -184,8 +186,8 @@
             // label9
             // 
             label9.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            label9.Font = new Font("Lucida Sans", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label9.Location = new Point(7, 201);
+            label9.Font = new Font("Rockwell", 12F, FontStyle.Bold | FontStyle.Italic);
+            label9.Location = new Point(3, 172);
             label9.Name = "label9";
             label9.Size = new Size(202, 15);
             label9.TabIndex = 13;
@@ -195,8 +197,8 @@
             // label8
             // 
             label8.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            label8.Font = new Font("Lucida Sans", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label8.Location = new Point(7, 173);
+            label8.Font = new Font("Rockwell", 12F, FontStyle.Bold | FontStyle.Italic);
+            label8.Location = new Point(3, 157);
             label8.Name = "label8";
             label8.Size = new Size(202, 15);
             label8.TabIndex = 12;
@@ -206,8 +208,8 @@
             // label7
             // 
             label7.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            label7.Font = new Font("Lucida Sans", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label7.Location = new Point(7, 146);
+            label7.Font = new Font("Rockwell", 12F, FontStyle.Bold | FontStyle.Italic);
+            label7.Location = new Point(3, 142);
             label7.Name = "label7";
             label7.Size = new Size(202, 15);
             label7.TabIndex = 11;
@@ -217,8 +219,8 @@
             // label6
             // 
             label6.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            label6.Font = new Font("Lucida Sans", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.Location = new Point(7, 120);
+            label6.Font = new Font("Rockwell", 12F, FontStyle.Bold | FontStyle.Italic);
+            label6.Location = new Point(3, 127);
             label6.Name = "label6";
             label6.Size = new Size(202, 15);
             label6.TabIndex = 10;
@@ -228,8 +230,8 @@
             // label5
             // 
             label5.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            label5.Font = new Font("Lucida Sans", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label5.Location = new Point(7, 93);
+            label5.Font = new Font("Rockwell", 12F, FontStyle.Bold | FontStyle.Italic);
+            label5.Location = new Point(3, 112);
             label5.Name = "label5";
             label5.Size = new Size(202, 15);
             label5.TabIndex = 9;
@@ -239,8 +241,8 @@
             // label4
             // 
             label4.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            label4.Font = new Font("Lucida Sans", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label4.Location = new Point(7, 68);
+            label4.Font = new Font("Rockwell", 12F, FontStyle.Bold | FontStyle.Italic);
+            label4.Location = new Point(3, 97);
             label4.Name = "label4";
             label4.Size = new Size(202, 15);
             label4.TabIndex = 8;
@@ -250,8 +252,8 @@
             // label2
             // 
             label2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            label2.Font = new Font("Lucida Sans", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.Location = new Point(7, 42);
+            label2.Font = new Font("Rockwell", 12F, FontStyle.Bold | FontStyle.Italic);
+            label2.Location = new Point(3, 82);
             label2.Name = "label2";
             label2.Size = new Size(202, 15);
             label2.TabIndex = 7;
@@ -261,8 +263,8 @@
             // label1
             // 
             label1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            label1.Font = new Font("Lucida Sans", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(7, 18);
+            label1.Font = new Font("Rockwell", 12F, FontStyle.Bold | FontStyle.Italic);
+            label1.Location = new Point(3, 67);
             label1.Name = "label1";
             label1.Size = new Size(202, 15);
             label1.TabIndex = 6;
@@ -283,19 +285,19 @@
             // label12
             // 
             label12.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            label12.Font = new Font("Lucida Sans", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label12.Location = new Point(7, 126);
+            label12.Font = new Font("Lucida Sans", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label12.Location = new Point(3, 139);
             label12.Name = "label12";
             label12.Size = new Size(212, 18);
             label12.TabIndex = 16;
-            label12.Text = "Stop Estimation: ";
+            label12.Text = "Estimation Stop";
             label12.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // label11
             // 
             label11.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            label11.Font = new Font("Lucida Sans", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label11.Location = new Point(7, 68);
+            label11.Font = new Font("Lucida Sans", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label11.Location = new Point(3, 84);
             label11.Name = "label11";
             label11.Size = new Size(212, 17);
             label11.TabIndex = 15;
@@ -305,13 +307,24 @@
             // label10
             // 
             label10.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            label10.Font = new Font("Lucida Sans", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label10.Location = new Point(7, 13);
+            label10.Font = new Font("Lucida Sans", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label10.Location = new Point(3, 19);
             label10.Name = "label10";
             label10.Size = new Size(212, 17);
             label10.TabIndex = 14;
-            label10.Text = "DATE : ";
+            label10.Text = "Date : ";
             label10.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // label13
+            // 
+            label13.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            label13.Font = new Font("Rockwell", 14.25F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            label13.Location = new Point(13, 19);
+            label13.Name = "label13";
+            label13.Size = new Size(202, 25);
+            label13.TabIndex = 14;
+            label13.Text = "Serial Number";
+            label13.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // Form2
             // 
@@ -357,5 +370,6 @@
         private Label label11;
         private Label label10;
         private TextBox textBox1;
+        private Label label13;
     }
 }

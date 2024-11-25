@@ -70,8 +70,7 @@
             panel3.Controls.Add(label6);
             panel3.Controls.Add(label7);
             panel3.Controls.Add(textBox13);
-            panel3.Dock = DockStyle.Fill;
-            panel3.Location = new Point(0, 0);
+            panel3.Location = new Point(1, 0);
             panel3.Name = "panel3";
             panel3.Size = new Size(422, 619);
             panel3.TabIndex = 11;
@@ -236,7 +235,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(422, 619);
             Controls.Add(panel3);
-            FormBorderStyle = FormBorderStyle.None;
+            FormBorderStyle = FormBorderStyle.Fixed3D;
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load;
