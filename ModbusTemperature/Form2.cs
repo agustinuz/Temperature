@@ -246,7 +246,7 @@ namespace ModbusTemperature
             string[] sourceImages = new string[groupedData.Count];
             for (int i = 0; i < groupedData.Count; i++)
             {
-                string imgPath = sourceImages[i] = Path.Combine(AppContext.BaseDirectory, $"{masterModels[0].SerialNumber}-{i}.jpg");
+                string imgPath = sourceImages[i] = Path.Combine("C:\\Users\\DELL\\Desktop\\example\\", $"{masterModels[0].SerialNumber}-{i}.jpg");
                 setupChart(groupedData[i], masterModels[0]);
                 LoadChartPoints(groupedData[i]);
                 if (File.Exists(imgPath))
@@ -255,7 +255,7 @@ namespace ModbusTemperature
                 chart1.SaveImage(Path.Combine(AppContext.BaseDirectory, $"{masterModels[0].SerialNumber}-{i}.jpg"), ChartImageFormat.Jpeg);
 
             }
-            PDFUtility.MasterModelToPDF(sourceImages, Path.Combine(AppContext.BaseDirectory, $"{masterModels[0].badgeId}_{masterModels[0].RecordedAt.ToString("yyyy-MM-dd")}.pdf"));
+            PDFUtility.MasterModelToPDF(sourceImages, Path.Combine("C:\\Users\\DELL\\Desktop\\example\\", $"{masterModels[0].badgeId}_{masterModels[0].RecordedAt.ToString("yyyy-MM-dd")}.pdf"));
             for (int i = 0; i < sourceImages.Length; i++)
                 File.Delete(sourceImages[i]);
         }

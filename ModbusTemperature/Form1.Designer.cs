@@ -32,8 +32,7 @@
             toolTip1 = new ToolTip(components);
             backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             panel3 = new Panel();
-            label1 = new Label();
-            comboBox1 = new ComboBox();
+            button1 = new Button();
             textBox10 = new TextBox();
             textBox9 = new TextBox();
             textBox8 = new TextBox();
@@ -55,8 +54,7 @@
             panel3.BackColor = Color.Cyan;
             panel3.BackgroundImageLayout = ImageLayout.None;
             panel3.BorderStyle = BorderStyle.Fixed3D;
-            panel3.Controls.Add(label1);
-            panel3.Controls.Add(comboBox1);
+            panel3.Controls.Add(button1);
             panel3.Controls.Add(textBox10);
             panel3.Controls.Add(textBox9);
             panel3.Controls.Add(textBox8);
@@ -76,25 +74,15 @@
             panel3.TabIndex = 11;
             panel3.Paint += panel3_Paint;
             // 
-            // label1
+            // button1
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Lucida Sans", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(50, 447);
-            label1.Name = "label1";
-            label1.Size = new Size(101, 18);
-            label1.TabIndex = 13;
-            label1.Text = "Temp Timer";
-            // 
-            // comboBox1
-            // 
-            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(157, 442);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(197, 23);
-            comboBox1.TabIndex = 12;
-            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            button1.Location = new Point(9, 10);
+            button1.Name = "button1";
+            button1.Size = new Size(75, 23);
+            button1.TabIndex = 14;
+            button1.Text = "Setting";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // textBox10
             // 
@@ -180,7 +168,7 @@
             // 
             button2.FlatAppearance.BorderSize = 0;
             button2.FlatAppearance.MouseDownBackColor = Color.Silver;
-            button2.Location = new Point(237, 505);
+            button2.Location = new Point(237, 442);
             button2.Name = "button2";
             button2.Size = new Size(117, 53);
             button2.TabIndex = 11;
@@ -192,7 +180,7 @@
             // 
             button3.FlatAppearance.BorderSize = 0;
             button3.FlatAppearance.MouseDownBackColor = Color.Silver;
-            button3.Location = new Point(66, 505);
+            button3.Location = new Point(66, 442);
             button3.Name = "button3";
             button3.Size = new Size(117, 53);
             button3.TabIndex = 10;
@@ -261,7 +249,6 @@
         private Label label7;
         private TextBox textBox12;
         private TextBox textBox13;
-        private ComboBox comboBox1;
-        private Label label1;
+        private Button button1;
     }
 }
